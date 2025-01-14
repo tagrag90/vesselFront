@@ -82,7 +82,7 @@ const BlogPage = () => {
 
                     <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
 
-                        <img src={banner} className="aspect-video" />
+                        <img src={banner} className="aspect-video rounded-[20px]" />
 
                         <div className="mt-12">
                             <h2>{title}</h2>
