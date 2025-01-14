@@ -3,7 +3,8 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: "AIzaSyDKGEt5AhLbpvNpmKca3Iio4HLtnMHUgKw",
-    authDomain: "vessel-afc92.firebaseapp.com",
+    // authDomain: "vessel-afc92.firebaseapp.com",
+    authDomain: "vessel.today",
     projectId: "vessel-afc92",
     storageBucket: "vessel-afc92.firebasestorage.app",
     messagingSenderId: "829276152352",
