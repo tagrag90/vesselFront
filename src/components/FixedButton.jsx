@@ -8,7 +8,7 @@ const FixedButton = () => {
         fixed bottom-5 right-5 
         w-[150px] h-[45px] 
         bg-[#333333] 
-        border border-gray-200
+        
         rounded-lg
         shadow-md 
         flex items-center justify-center 
@@ -21,7 +21,7 @@ const FixedButton = () => {
       "
     >
       <img 
-        src="src/public/bada-logo-button.png" 
+        src="src/public/images/bada-logo-button.png" 
         alt="Dive to Bada" 
         className="w-8 h-8 object-contain mr-4"
       />
