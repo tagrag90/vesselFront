@@ -9,8 +9,7 @@ const FixedButton = () => {
       className="
         fixed bottom-5 right-5 
         w-[150px] h-[45px] 
-        bg-[#333333] 
-        
+        bg-[#000000]
         rounded-lg
         shadow-md 
         flex items-center justify-center 
