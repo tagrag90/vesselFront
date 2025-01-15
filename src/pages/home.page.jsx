@@ -16,17 +16,12 @@ const HomePage = () => {
     let [ pageState, setPageState ] = useState("home");
 
     let categories = [
-        "programming",
-        "hollywood",
-        "film making",
+        "vessel",
         "social media",
         "cooking",
         "tech",
-        "finance",
-        "travel",
-        "K-pop",
         "K-drama",
-        "K-music",
+        "music",
         "K-fashion",
         "K-beauty",
     ];

@@ -14,6 +14,7 @@ import ChangePassword from "./pages/change-password.page";
 import EditProfile from "./pages/edit-profile.page";
 import Notifications from "./pages/notifications.page";
 import ManageBlogs from "./pages/manage-blogs.page";
+import FixedButton from './components/FixedButton';
 
 export const UserContext = createContext({})
 
@@ -73,6 +74,7 @@ const App = () => {
                         <Route path="*" element={<PageNotFound />} /> 
                     </Route>
                 </Routes>
+                <FixedButton />
             </UserContext.Provider>
         </ThemeContext.Provider>
     );
