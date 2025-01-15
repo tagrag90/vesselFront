@@ -1,3 +1,5 @@
+import badaLogo from '../imgs/bada-logo-button.png'; 
+
 const FixedButton = () => {
   return (
     <a 
@@ -21,7 +23,7 @@ const FixedButton = () => {
       "
     >
       <img 
-        src="src/imgs/bada-logo-button.png" 
+        src={badaLogo} 
         alt="Dive to Bada" 
         className="w-8 h-8 object-contain mr-4"
       />
