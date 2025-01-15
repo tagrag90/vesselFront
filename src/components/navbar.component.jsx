@@ -73,7 +73,7 @@ const Navbar = () => {
                 <Link to="/" className="flex-none w-10 md:hidden">
                     <img src={ theme == "light" ? darkLogo : lightLogo } className="w-full" />
                 </Link>
-                <Link to="/" className="text-2xl font-bold text-gray-800 ml-0 md:block hidden">
+                <Link to="/" className="text-2xl font-bold text-gray-800 ml-0 md:block hidden font-['Noto_Sans_KR']">
                     Vessel
                 </Link>
 

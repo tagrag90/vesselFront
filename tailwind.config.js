@@ -17,8 +17,8 @@ export default {
 
         extend: {
             fontFamily: {
-              inter: ["'Inter'", "sans-serif"],
-              gelasio: ["'Gelasio'", "serif"]
+              'sans': ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'sans-serif'],
+              'noto': ['Noto Sans KR', 'sans-serif'],
             },
         },
 

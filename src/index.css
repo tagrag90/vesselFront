@@ -16,7 +16,10 @@
     }
 
     body {
-        @apply font-inter font-normal text-black bg-white;
+        @apply font-normal text-black bg-white;
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     i {
@@ -88,15 +91,15 @@
     }
 
     #textEditor h2, h2{
-        @apply font-inter text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
+        @apply text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
     }
 
     #textEditor h3, h3 {
-        @apply font-inter text-3xl leading-loose max-md:text-2xl max-md:leading-normal !important;
+        @apply text-3xl leading-loose max-md:text-2xl max-md:leading-normal !important;
     }
 
     #textEditor *, .blog-page-content *{
-        @apply font-gelasio text-xl leading-10 md:text-2xl;
+        @apply text-xl leading-10 md:text-2xl;
     }
 
     #textEditor a, .blog-page-content a{
