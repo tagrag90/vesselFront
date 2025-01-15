@@ -21,7 +21,7 @@ const FixedButton = () => {
       "
     >
       <img 
-        src="src/public/images/bada-logo-button.png" 
+        src="src/imgs/bada-logo-button.png" 
         alt="Dive to Bada" 
         className="w-8 h-8 object-contain mr-4"
       />
