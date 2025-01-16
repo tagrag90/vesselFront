@@ -8,9 +8,10 @@ const FixedButton = () => {
       rel="noopener noreferrer"
       className="
         fixed bottom-5 right-5 
-        w-[150px] h-[45px] 
+        w-[45px] md:w-[150px] h-[45px] 
         bg-[#000000]
-        rounded-lg
+        border border-gray-200
+        rounded-full
         shadow-md 
         flex items-center justify-center 
         gap-2
@@ -24,9 +25,9 @@ const FixedButton = () => {
       <img 
         src={badaLogo} 
         alt="Dive to Bada" 
-        className="w-8 h-8 object-contain mr-4"
+        className="w-8 h-8 object-contain md:mr-2"
       />
-      <span className="text-md font-semibold">with Bada</span>
+      <span className="hidden md:block text-md font-semibold">with Bada</span>
     </a>
   );
 };
