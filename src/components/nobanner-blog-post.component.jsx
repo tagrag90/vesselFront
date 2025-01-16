@@ -8,7 +8,9 @@ const MinimalBlogPost = ({ blog, index }) => {
 
     return (
         <Link to={`/blog/${id}`} className="flex gap-5 mb-8">
-            <h1 className="blog-index">{ index < 10 ? "0" + (index + 1) : index}</h1>
+            <h1 className={`blog-index ${index === 0 ? "text-[#00DD89]" : "text-[#ABB3BB]"}`}>
+                { index < 10 ? "0" + (index + 1) : index}
+            </h1>
 
             <div>
                 <div className="flex gap-2 items-center mb-7">
