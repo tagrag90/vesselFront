@@ -100,9 +100,9 @@ const Navbar = () => {
                         <p>Write</p>
                     </Link>
 
-                    <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10" onClick={changeTheme}>
+                    {/* <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10" onClick={changeTheme}>
                         <i className={"fi fi-rr-" + ( theme == "light" ?  "moon-stars" : "sun" ) + " text-2xl block mt-1" }></i>
-                    </button>
+                    </button> */}
 
                     {
                         access_token ? 
