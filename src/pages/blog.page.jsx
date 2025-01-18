@@ -14,7 +14,7 @@ export const blogStructure = {
     des: '',
     content: [],
     author: { personal_info: { } },
-    banner: '',
+    banner: '/images/logo-dark.png',
     publishedAt: '',
 }
 
