@@ -3,6 +3,7 @@ import { getDay } from "../common/date";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
+import defaultBanner from "../imgs/logo-dark.png";
 
 const BlogStats = ({ stats }) => {
 
@@ -32,7 +33,7 @@ export const ManagePublishedBlogCard = ({ blog }) => {
         <>
             <div className="flex gap-10 border-b mb-6 max-md:px-4 border-grey pb-6 items-center">
 
-                <img src={banner} className="max-md:hidden lg:hidden xl:block w-28 h-28 flex-none bg-grey object-cover" />
+                <img src={banner || defaultBanner} className="max-md:hidden lg:hidden xl:block w-28 h-28 flex-none bg-grey object-cover" />
 
                 <div className="flex flex-col justify-between py-2 w-full min-w-[300px]">
                     <div>

@@ -12,6 +12,7 @@ import EditorJS from "@editorjs/editorjs";
 import { tools } from "./tools.component";
 import axios from "axios";
 import { ThemeContext, UserContext } from "../App";
+import defaultBanner from "../imgs/logo-dark.png";
 
 const BlogEditor = () => {
 
@@ -76,16 +77,10 @@ const BlogEditor = () => {
 
     const handleError = (e) => {
         let img = e.target;
-
-        img.src = theme == "light" ? lightBanner : darkBanner;
+        img.src = defaultBanner;
     }
 
     const handlePublishEvent = () => {
-        
-        if(!banner.length){
-            return toast.error("Upload a blog banner to publish it")
-        }
-
         if(!title.length){
             return toast.error("Write blog title to publish it")
         }
@@ -103,7 +98,6 @@ const BlogEditor = () => {
                 console.log(err);
             })
         }
-
     }
 
     const handleSaveDraft = (e) => {
@@ -187,7 +181,7 @@ const BlogEditor = () => {
                         <div className="relative aspect-video hover:opacity-80 bg-white border-4 border-grey">
                             <label htmlFor="uploadBanner">
                                 <img 
-                                    src={banner}
+                                    src={banner || defaultBanner}
                                     className="z-20"
                                     onError={handleError}
                                 />

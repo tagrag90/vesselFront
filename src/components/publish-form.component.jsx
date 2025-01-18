@@ -6,6 +6,7 @@ import Tag from "./tags.component";
 import axios from "axios";
 import { UserContext } from "../App";
 import { useNavigate, useParams } from "react-router-dom";
+import defaultBanner from "../imgs/logo-dark.png";
 
 const PublishForm = () => {
 
@@ -84,7 +85,12 @@ const PublishForm = () => {
         e.target.classList.add('disable');
 
         let blogObj = {
-            title, banner, des, content, tags, draft: false
+            title, 
+            banner: banner || "",
+            des, 
+            content, 
+            tags, 
+            draft: false
         }
 
         axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog", { ...blogObj, id: blog_id }, {
@@ -129,7 +135,7 @@ const PublishForm = () => {
                     <p className="text-dark-grey mb-1">Preview</p>
 
                     <div className="w-full aspect-video rounded-lg overflow-hidden bg-grey mt-4" >
-                        <img src={banner} />
+                        <img src={banner || defaultBanner} className="w-full h-full aspect-square object-cover" />
                     </div>
 
                     <h1 className="text-4xl font-medium mt-2 leading-tight line-clamp-2">{ title }</h1>
