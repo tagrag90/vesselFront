@@ -8,7 +8,8 @@ import BlogInteraction from "../components/blog-interaction.component";
 import BlogPostCard from "../components/blog-post.component";
 import BlogContent from "../components/blog-content.component";
 import CommentsContainer, { fetchComments } from "../components/comments.component";
-import defaultBanner from "../imgs/logo-dark.png";
+
+const defaultBannerUrl = '/images/logo-dark.png';
 
 export const blogStructure = {
     title: '',
@@ -83,7 +84,11 @@ const BlogPage = () => {
 
                     <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
 
-                        <img src={banner || defaultBanner} className="aspect-video rounded-[20px]" />
+                        {banner && banner.trim().length > 0 ? (
+                            <img src={banner} className="aspect-video rounded-[20px]" />
+                        ) : (
+                            <img src={defaultBannerUrl} className="aspect-video rounded-[20px]" />
+                        )}
 
                         <div className="mt-12">
                             <h2>{title}</h2>
