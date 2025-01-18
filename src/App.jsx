@@ -15,6 +15,7 @@ import EditProfile from "./pages/edit-profile.page";
 import Notifications from "./pages/notifications.page";
 import ManageBlogs from "./pages/manage-blogs.page";
 import FixedButton from './components/FixedButton';
+import { Analytics } from "@vercel/analytics/react";
 
 export const UserContext = createContext({})
 
@@ -75,6 +76,7 @@ const App = () => {
                     </Route>
                 </Routes>
                 <FixedButton />
+                <Analytics />
             </UserContext.Provider>
         </ThemeContext.Provider>
     );
