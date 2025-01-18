@@ -8,12 +8,11 @@ import BlogInteraction from "../components/blog-interaction.component";
 import BlogPostCard from "../components/blog-post.component";
 import BlogContent from "../components/blog-content.component";
 import CommentsContainer, { fetchComments } from "../components/comments.component";
-import defaultBanner from "/images/logo-dark.png";
 
 export const blogStructure = {
     title: '',
     des: '',
-    conent: [],
+    content: [],
     author: { personal_info: { } },
     banner: '',
     publishedAt: '',
@@ -83,13 +82,11 @@ const BlogPage = () => {
 
                     <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
 
-                        {banner && banner.trim().length > 0 ? (
+                        {banner && banner.trim().length > 0 && (
                             <img src={banner} className="aspect-video rounded-[20px]" />
-                        ) : (
-                            <img src={defaultBanner} className="aspect-video rounded-[20px]" />
                         )}
 
-                        <div className="mt-12">
+                        <div className={`${banner && banner.trim().length > 0 ? "mt-12" : "mt-8"}`}>
                             <h2>{title}</h2>
 
                             <div className="flex max-sm:flex-col justify-between my-8">
