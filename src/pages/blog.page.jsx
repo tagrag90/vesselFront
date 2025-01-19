@@ -89,19 +89,17 @@ const BlogPage = () => {
 
     // OpenGraph 이미지 URL 결정
     const getOgImageUrl = () => {
+        // defaultBanner가 있는 경우 우선 사용
         if (banner && banner.trim().length > 0) {
             return getFullImageUrl(banner);
         }
-        const firstImage = getFirstImageUrl();
-        if (firstImage) {
-            return getFullImageUrl(firstImage);
-        }
-        return `${window.location.origin}/images/og-image.png`; // 절대 URL 사용
+        // defaultBanner가 없는 경우 기본 이미지 사용
+        return `${window.location.origin}/images/og-image.png`;
     };
 
     useEffect(() => {
         console.log('OG Image URL:', getOgImageUrl()); // URL 디버깅
-    }, [banner, content]);
+    }, [banner]);
 
     return (
         <>
@@ -133,15 +131,10 @@ const BlogPage = () => {
             )}
 
             <AnimationWrapper>
-                {
-                    loading ? <Loader />
-                    : 
+                {loading ? <Loader /> : 
                     <BlogContext.Provider value={{ blog, setBlog, islikedByUser, setLikedByUser, commentsWrapper, setCommentsWrapper, totalParentCommentsLoaded, setTotalParentCommentsLoaded }}>
-
                         <CommentsContainer />
-
                         <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
-
                             {banner && banner.trim().length > 0 && (
                                 <img src={getFullImageUrl(banner)} className="aspect-video rounded-[20px]" />
                             )}
