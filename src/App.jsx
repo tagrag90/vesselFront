@@ -16,6 +16,7 @@ import Notifications from "./pages/notifications.page";
 import ManageBlogs from "./pages/manage-blogs.page";
 import FixedButton from './components/FixedButton';
 import { Analytics } from "@vercel/analytics/react";
+import { HelmetProvider } from 'react-helmet-async';
 
 export const UserContext = createContext({})
 
@@ -52,33 +53,35 @@ const App = () => {
 
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
-            <UserContext.Provider value={{userAuth, setUserAuth}}>
-                <Routes>
-                    <Route path="/editor" element={<Editor />} />
-                    <Route path="/editor/:blog_id" element={<Editor />} />
-                    <Route path="/" element={<Navbar />}> 
-                        <Route index element={<HomePage />} />
-                        <Route path="dashboard" element={<SideNav />} > 
-                            <Route path="blogs" element={<ManageBlogs />} />
-                            <Route path="notifications" element={<Notifications />} />
+        <HelmetProvider>
+            <ThemeContext.Provider value={{ theme, setTheme }}>
+                <UserContext.Provider value={{userAuth, setUserAuth}}>
+                    <Routes>
+                        <Route path="/editor" element={<Editor />} />
+                        <Route path="/editor/:blog_id" element={<Editor />} />
+                        <Route path="/" element={<Navbar />}> 
+                            <Route index element={<HomePage />} />
+                            <Route path="dashboard" element={<SideNav />} > 
+                                <Route path="blogs" element={<ManageBlogs />} />
+                                <Route path="notifications" element={<Notifications />} />
+                            </Route>
+                            <Route path="settings" element={<SideNav />} >  
+                                <Route path="edit-profile" element={<EditProfile />} />
+                                <Route path="change-password" element={<ChangePassword />} />
+                            </Route>
+                            <Route path="signin" element={<UserAuthForm type="sign-in" />} /> 
+                            <Route path="signup" element={<UserAuthForm type="sign-up" />} />
+                            <Route path="search/:query" element={<SearchPage />} />
+                            <Route path="user/:id" element={<ProfilePage />} />
+                            <Route path="blog/:blog_id" element={<BlogPage />}/>
+                            <Route path="*" element={<PageNotFound />} /> 
                         </Route>
-                        <Route path="settings" element={<SideNav />} >  
-                            <Route path="edit-profile" element={<EditProfile />} />
-                            <Route path="change-password" element={<ChangePassword />} />
-                        </Route>
-                        <Route path="signin" element={<UserAuthForm type="sign-in" />} /> 
-                        <Route path="signup" element={<UserAuthForm type="sign-up" />} />
-                        <Route path="search/:query" element={<SearchPage />} />
-                        <Route path="user/:id" element={<ProfilePage />} />
-                        <Route path="blog/:blog_id" element={<BlogPage />}/>
-                        <Route path="*" element={<PageNotFound />} /> 
-                    </Route>
-                </Routes>
-                <FixedButton />
-                <Analytics />
-            </UserContext.Provider>
-        </ThemeContext.Provider>
+                    </Routes>
+                    <FixedButton />
+                    <Analytics />
+                </UserContext.Provider>
+            </ThemeContext.Provider>
+        </HelmetProvider>
     );
 
 }
