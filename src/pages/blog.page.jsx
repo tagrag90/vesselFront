@@ -89,16 +89,24 @@ const BlogPage = () => {
 
     // OpenGraph 이미지 URL 결정
     const getOgImageUrl = () => {
-        // banner가 있고 기본 이미지가 아닌 경우
-        if (banner && !banner.includes('og-image.png')) {
-            return getFullImageUrl(banner);
+        console.log('Current banner:', banner); // 디버깅용
+        
+        // banner가 있고 유효한 URL인 경우
+        if (banner && banner.trim().length > 0 && !banner.includes('logo-dark.png')) {
+            const fullUrl = getFullImageUrl(banner);
+            console.log('Using banner URL:', fullUrl); // 디버깅용
+            return fullUrl;
         }
+        
         // 기본 이미지 사용
-        return `${window.location.origin}/images/og-image.png`;
+        const defaultUrl = `${window.location.origin}/images/og-image.png`;
+        console.log('Using default URL:', defaultUrl); // 디버깅용
+        return defaultUrl;
     };
 
     useEffect(() => {
-        console.log('OG Image URL:', getOgImageUrl()); // URL 디버깅
+        console.log('Banner:', banner); // 디버깅용
+        console.log('Final OG Image URL:', getOgImageUrl()); // 디버깅용
     }, [banner]);
 
     return (
@@ -119,7 +127,7 @@ const BlogPage = () => {
 
                     <meta name="twitter:card" content="summary_large_image" />
                     <meta name="twitter:title" content={title || 'Vessel'} />
-                    <meta name="twitter:description" content={des || '개발자들을 위한 블로그 플랫폼'} />
+                    <meta name="twitter:description" content={des || '내 마음이 내 기록이 되는 공간'} />
                     <meta name="twitter:image" content={getOgImageUrl()} />
 
                     <meta property="article:published_time" content={publishedAt || ''} />
