@@ -72,6 +72,13 @@ const BlogPage = () => {
         setTotalParentCommentsLoaded(0);
     }
 
+    // banner URL을 절대 경로로 변환하는 함수 추가
+    const getFullImageUrl = (url) => {
+        if (!url) return '';
+        if (url.startsWith('http')) return url;
+        return `${import.meta.env.VITE_SERVER_DOMAIN}${url}`;
+    };
+
     return (
         <>
             {!loading && blog && (
@@ -84,7 +91,7 @@ const BlogPage = () => {
                     <meta property="og:description" content={des || ''} />
                     {banner && banner.trim().length > 0 ? (
                         <>
-                            <meta property="og:image" content={banner} />
+                            <meta property="og:image" content={getFullImageUrl(banner)} />
                             <meta property="og:image:width" content="1200" />
                             <meta property="og:image:height" content="630" />
                         </>
@@ -96,7 +103,7 @@ const BlogPage = () => {
                     <meta name="twitter:title" content={title || ''} />
                     <meta name="twitter:description" content={des || ''} />
                     {banner && banner.trim().length > 0 && (
-                        <meta name="twitter:image" content={banner} />
+                        <meta name="twitter:image" content={getFullImageUrl(banner)} />
                     )}
 
                     <meta property="article:published_time" content={publishedAt || ''} />
@@ -117,7 +124,9 @@ const BlogPage = () => {
 
                         <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
 
-                            <img src={banner} className="aspect-video rounded-[20px]" />
+                            {banner && banner.trim().length > 0 && (
+                                <img src={getFullImageUrl(banner)} className="aspect-video rounded-[20px]" />
+                            )}
 
                             <div className="mt-12">
                                 <h2>{title}</h2>
