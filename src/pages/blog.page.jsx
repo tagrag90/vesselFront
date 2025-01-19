@@ -96,7 +96,7 @@ const BlogPage = () => {
         if (firstImage) {
             return getFullImageUrl(firstImage);
         }
-        return ''; // 이미지가 없는 경우
+        return '/images/og-image.png'; // 기본 이미지 사용
     };
 
     return (
@@ -104,27 +104,21 @@ const BlogPage = () => {
             {!loading && blog && (
                 <Helmet>
                     <title>{title || 'Vessel'}</title>
-                    <meta name="description" content={des || ''} />
+                    <meta name="description" content={des || '내 마음이 내 기록이 되는 공간'} />
 
                     <meta property="og:type" content="article" />
-                    <meta property="og:title" content={title || ''} />
-                    <meta property="og:description" content={des || ''} />
-                    {getOgImageUrl() && (
-                        <>
-                            <meta property="og:image" content={getOgImageUrl()} />
-                            <meta property="og:image:width" content="1200" />
-                            <meta property="og:image:height" content="630" />
-                        </>
-                    )}
+                    <meta property="og:title" content={title || 'Vessel'} />
+                    <meta property="og:description" content={des || '내 마음이 내 기록이 되는 공간'} />
+                    <meta property="og:image" content={getOgImageUrl()} />
+                    <meta property="og:image:width" content="1200" />
+                    <meta property="og:image:height" content="630" />
                     <meta property="og:url" content={`${window.location.origin}/blog/${blog_id}`} />
                     <meta property="og:site_name" content="Vessel" />
 
                     <meta name="twitter:card" content="summary_large_image" />
-                    <meta name="twitter:title" content={title || ''} />
-                    <meta name="twitter:description" content={des || ''} />
-                    {getOgImageUrl() && (
-                        <meta name="twitter:image" content={getOgImageUrl()} />
-                    )}
+                    <meta name="twitter:title" content={title || 'Vessel'} />
+                    <meta name="twitter:description" content={des || '내 마음이 내 기록이 되는 공간'} />
+                    <meta name="twitter:image" content={getOgImageUrl()} />
 
                     <meta property="article:published_time" content={publishedAt || ''} />
                     <meta property="article:author" content={fullname || ''} />
