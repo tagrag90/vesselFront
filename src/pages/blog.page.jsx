@@ -82,7 +82,7 @@ const BlogPage = () => {
 
     // banner URL을 절대 경로로 변환하는 함수
     const getFullImageUrl = (url) => {
-        if (!url) return '';
+        if (!url) return `${window.location.origin}/images/og-image.png`;
         if (url.startsWith('http')) return url;
         return `${import.meta.env.VITE_SERVER_DOMAIN}${url}`;
     };
@@ -96,8 +96,12 @@ const BlogPage = () => {
         if (firstImage) {
             return getFullImageUrl(firstImage);
         }
-        return '/images/og-image.png'; // 기본 이미지 사용
+        return `${window.location.origin}/images/og-image.png`; // 절대 URL 사용
     };
+
+    useEffect(() => {
+        console.log('OG Image URL:', getOgImageUrl()); // URL 디버깅
+    }, [banner, content]);
 
     return (
         <>
@@ -117,7 +121,7 @@ const BlogPage = () => {
 
                     <meta name="twitter:card" content="summary_large_image" />
                     <meta name="twitter:title" content={title || 'Vessel'} />
-                    <meta name="twitter:description" content={des || '내 마음이 내 기록이 되는 공간'} />
+                    <meta name="twitter:description" content={des || '개발자들을 위한 블로그 플랫폼'} />
                     <meta name="twitter:image" content={getOgImageUrl()} />
 
                     <meta property="article:published_time" content={publishedAt || ''} />
