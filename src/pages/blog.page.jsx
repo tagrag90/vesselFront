@@ -72,11 +72,31 @@ const BlogPage = () => {
         setTotalParentCommentsLoaded(0);
     }
 
-    // banner URL을 절대 경로로 변환하는 함수 추가
+    // 블로그 내용에서 첫 번째 이미지 URL을 찾는 함수
+    const getFirstImageUrl = () => {
+        if (!content || !content[0] || !content[0].blocks) return '';
+        
+        const imageBlock = content[0].blocks.find(block => block.type === 'image');
+        return imageBlock ? imageBlock.data.file.url : '';
+    };
+
+    // banner URL을 절대 경로로 변환하는 함수
     const getFullImageUrl = (url) => {
         if (!url) return '';
         if (url.startsWith('http')) return url;
         return `${import.meta.env.VITE_SERVER_DOMAIN}${url}`;
+    };
+
+    // OpenGraph 이미지 URL 결정
+    const getOgImageUrl = () => {
+        if (banner && banner.trim().length > 0) {
+            return getFullImageUrl(banner);
+        }
+        const firstImage = getFirstImageUrl();
+        if (firstImage) {
+            return getFullImageUrl(firstImage);
+        }
+        return ''; // 이미지가 없는 경우
     };
 
     return (
@@ -89,21 +109,21 @@ const BlogPage = () => {
                     <meta property="og:type" content="article" />
                     <meta property="og:title" content={title || ''} />
                     <meta property="og:description" content={des || ''} />
-                    {banner && banner.trim().length > 0 ? (
+                    {getOgImageUrl() && (
                         <>
-                            <meta property="og:image" content={getFullImageUrl(banner)} />
+                            <meta property="og:image" content={getOgImageUrl()} />
                             <meta property="og:image:width" content="1200" />
                             <meta property="og:image:height" content="630" />
                         </>
-                    ) : null}
+                    )}
                     <meta property="og:url" content={`${window.location.origin}/blog/${blog_id}`} />
                     <meta property="og:site_name" content="Vessel" />
 
                     <meta name="twitter:card" content="summary_large_image" />
                     <meta name="twitter:title" content={title || ''} />
                     <meta name="twitter:description" content={des || ''} />
-                    {banner && banner.trim().length > 0 && (
-                        <meta name="twitter:image" content={getFullImageUrl(banner)} />
+                    {getOgImageUrl() && (
+                        <meta name="twitter:image" content={getOgImageUrl()} />
                     )}
 
                     <meta property="article:published_time" content={publishedAt || ''} />
