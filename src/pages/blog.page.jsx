@@ -89,11 +89,11 @@ const BlogPage = () => {
 
     // OpenGraph 이미지 URL 결정
     const getOgImageUrl = () => {
-        // defaultBanner가 있는 경우 우선 사용
-        if (banner && banner.trim().length > 0) {
+        // banner가 있고 기본 이미지가 아닌 경우
+        if (banner && !banner.includes('og-image.png')) {
             return getFullImageUrl(banner);
         }
-        // defaultBanner가 없는 경우 기본 이미지 사용
+        // 기본 이미지 사용
         return `${window.location.origin}/images/og-image.png`;
     };
 
