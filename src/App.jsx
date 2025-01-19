@@ -8,7 +8,7 @@ import HomePage from "./pages/home.page";
 import SearchPage from "./pages/search.page";
 import PageNotFound from "./pages/404.page";
 import ProfilePage from "./pages/profile.page";
-import BlogPage from "./pages/blog.page";
+import React, { lazy, Suspense } from "react";
 import SideNav from "./components/sidenavbar.component";
 import ChangePassword from "./pages/change-password.page";
 import EditProfile from "./pages/edit-profile.page";
@@ -73,7 +73,11 @@ const App = () => {
                             <Route path="signup" element={<UserAuthForm type="sign-up" />} />
                             <Route path="search/:query" element={<SearchPage />} />
                             <Route path="user/:id" element={<ProfilePage />} />
-                            <Route path="blog/:blog_id" element={<BlogPage />}/>
+                            <Route path="blog/:blog_id" element={
+                                <Suspense fallback={<Loader />}>
+                                    <BlogPage />
+                                </Suspense>
+                            }/>
                             <Route path="*" element={<PageNotFound />} /> 
                         </Route>
                     </Routes>
