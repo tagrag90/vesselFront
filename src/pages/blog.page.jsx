@@ -74,7 +74,7 @@ const BlogPage = () => {
 
     return (
         <>
-            {!loading && (
+            {!loading && blog && (
                 <Helmet>
                     <title>{title || 'Vessel'}</title>
                     <meta name="description" content={des || ''} />
@@ -82,9 +82,13 @@ const BlogPage = () => {
                     <meta property="og:type" content="article" />
                     <meta property="og:title" content={title || ''} />
                     <meta property="og:description" content={des || ''} />
-                    {banner && banner.trim().length > 0 && (
-                        <meta property="og:image" content={banner} />
-                    )}
+                    {banner && banner.trim().length > 0 ? (
+                        <>
+                            <meta property="og:image" content={banner} />
+                            <meta property="og:image:width" content="1200" />
+                            <meta property="og:image:height" content="630" />
+                        </>
+                    ) : null}
                     <meta property="og:url" content={`${window.location.origin}/blog/${blog_id}`} />
                     <meta property="og:site_name" content="Vessel" />
 
