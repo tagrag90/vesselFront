@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { getDay } from "../common/date";
 import { Link } from "react-router-dom";
-import defaultBanner from "../imgs/logo-dark.png";
+import defaultBanner from "../imgs/defaultbanner.png";
 
 const BlogPostCard = ({ content, author }) => {
 

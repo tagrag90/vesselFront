@@ -6,7 +6,7 @@ import PublishForm from "../components/publish-form.component";
 import { createContext } from 'react';
 import Loader from "../components/loader.component";
 import axios from "axios";
-import defaultBanner from "../imgs/logo-dark.png";
+import defaultBanner from "../imgs/defaultbanner.png";
 
 const blogStructure = {
     title: '',
