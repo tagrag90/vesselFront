@@ -82,9 +82,16 @@ const BlogPage = () => {
 
     // banner URL을 절대 경로로 변환하는 함수
     const getFullImageUrl = (url) => {
-        if (!url) return `${window.location.origin}/images/og-image.png`;
+        if (!url || url.includes('defaultbanner.jpeg')) {
+            return `${window.location.origin}/images/og-image.png`; // 기본 이미지
+        }
         if (url.startsWith('http')) return url;
         return `${import.meta.env.VITE_SERVER_DOMAIN}${url}`;
+    };
+
+    // 배너 표시 여부를 결정하는 함수
+    const shouldShowBanner = (bannerUrl) => {
+        return bannerUrl && bannerUrl.trim().length > 0;
     };
 
     // OpenGraph 이미지 URL 결정
@@ -92,7 +99,7 @@ const BlogPage = () => {
         console.log('Current banner:', banner); // 디버깅용
         
         // banner가 있고 유효한 URL인 경우
-        if (banner && banner.trim().length > 0 && !banner.includes('logo-dark.png')) {
+        if (banner && banner.trim().length > 0 && !banner.includes('defaultbanner.jpeg')) {
             const fullUrl = getFullImageUrl(banner);
             console.log('Using banner URL:', fullUrl); // 디버깅용
             return fullUrl;
@@ -105,8 +112,8 @@ const BlogPage = () => {
     };
 
     useEffect(() => {
-        console.log('Banner:', banner); // 디버깅용
-        console.log('Final OG Image URL:', getOgImageUrl()); // 디버깅용
+        console.log('Original banner:', banner);
+        console.log('Processed banner URL:', getFullImageUrl(banner));
     }, [banner]);
 
     return (
@@ -143,10 +150,17 @@ const BlogPage = () => {
                     <BlogContext.Provider value={{ blog, setBlog, islikedByUser, setLikedByUser, commentsWrapper, setCommentsWrapper, totalParentCommentsLoaded, setTotalParentCommentsLoaded }}>
                         <CommentsContainer />
                         <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
-                            {banner && banner.trim().length > 0 && (
-                                <img src={getFullImageUrl(banner)} className="aspect-video rounded-[20px]" />
-                            )}
-
+                            {/* 항상 이미지를 표시하되, URL은 조건에 따라 결정 */}
+                            <img 
+                                src={getFullImageUrl(banner)} 
+                                className="aspect-video rounded-[20px] w-full object-cover"
+                                alt={title || 'Blog banner'}
+                                onError={(e) => {
+                                    console.error('Image load error:', e);
+                                    e.target.src = `${window.location.origin}/images/defaultbanner.jpeg`;
+                                }}
+                            />
+                            
                             <div className="mt-12">
                                 <h2>{title}</h2>
 

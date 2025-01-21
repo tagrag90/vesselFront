@@ -6,7 +6,7 @@ import Tag from "./tags.component";
 import axios from "axios";
 import { UserContext } from "../App";
 import { useNavigate, useParams } from "react-router-dom";
-import defaultBanner from "../imgs/logo-dark.png";
+import defaultBanner from "../imgs/defaultbanner.jpeg";
 
 const PublishForm = () => {
 

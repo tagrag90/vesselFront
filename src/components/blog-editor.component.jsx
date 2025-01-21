@@ -12,7 +12,7 @@ import EditorJS from "@editorjs/editorjs";
 import { tools } from "./tools.component";
 import axios from "axios";
 import { ThemeContext, UserContext } from "../App";
-import defaultBanner from "../imgs/logo-dark.png";
+import defaultBanner from "../imgs/defaultbanner.jpeg";
 
 const BlogEditor = () => {
 
