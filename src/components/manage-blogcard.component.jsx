@@ -3,7 +3,7 @@ import { getDay } from "../common/date";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import defaultBanner from "../imgs/logo-dark.png";
+import defaultBanner from "../imgs/defaultbanner.png";
 
 const BlogStats = ({ stats }) => {
 

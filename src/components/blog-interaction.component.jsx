@@ -60,6 +60,16 @@ const BlogInteraction = () => {
 
     }
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => {
+                toast.success("링크가 복사되었습니다");
+            })
+            .catch(() => {
+                toast.error("링크 복사에 실패했습니다");
+            });
+    }
+
     return (
         <>
             <Toaster />
@@ -91,7 +101,11 @@ const BlogInteraction = () => {
                         <Link to={`/editor/${blog_id}`} className="underline hover:text-purple">Edit</Link> : ""
                     }
 
-                    <Link to={`https://twitter.com/intent/tweet?text=Read ${title}&url=${location.href}`}><i className="fi fi-brands-twitter text-xl hover:text-twitter"></i></Link>
+                    <button onClick={handleCopy} className="hover:text-purple">
+                        <i className="fi fi-rr-copy text-xl"></i>
+                    </button>
+
+                    {/* <Link to={`https://twitter.com/intent/tweet?text=Read ${title}&url=${location.href}`}><i className="fi fi-brands-twitter text-xl hover:text-twitter"></i></Link> */}
                 </div>
             </div>
 
