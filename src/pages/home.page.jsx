@@ -9,6 +9,7 @@ import { activeTabRef } from "../components/inpage-navigation.component";
 import NoDataMessage from "../components/nodata.component";
 import { filterPaginationData } from "../common/filter-pagination-data";
 import LoadMoreDataBtn from "../components/load-more.component";
+import AdSense from "../components/AdSense";
 
 const HomePage = () => {
     let [blogs, setBlog] = useState(null);
@@ -117,11 +118,15 @@ const HomePage = () => {
                         defaultHidden={["trending blogs"]}
                     >
                         <>
+                            {/* 최상단 광고 */}
+                            <AdSense adSlot="8942267138" style={{ margin: '0 0 30px 0' }} />
+                            
                             {blogs == null ? (
                                 <Loader />
                             ) : (
                                 blogs.results.length ? 
                                     blogs.results.map((blog, i) => {
+                                        // 5번째 블로그 포스트 다음에 광고 삽입
                                         return (
                                             <AnimationWrapper
                                                 transition={{
@@ -136,6 +141,13 @@ const HomePage = () => {
                                                         blog.author.personal_info
                                                     }
                                                 />
+                                                {i === 4 && (
+                                                    <AdSense 
+                                                        adSlot="1418983839" 
+                                                        adFormat="fluid"
+                                                        style={{ margin: '30px 0' }}
+                                                    />
+                                                )}
                                             </AnimationWrapper>
                                         );
                                     })
@@ -148,22 +160,27 @@ const HomePage = () => {
                             <Loader />
                         ) : (
                             trendingBlogs.length ?
-                                trendingBlogs.map((blog, i) => {
-                                    return (
-                                        <AnimationWrapper
-                                            transition={{
-                                                duration: 1,
-                                                delay: i * 0.1,
-                                            }}
-                                            key={i}
-                                        >
-                                            <MinimalBlogPost
-                                                blog={blog}
-                                                index={i}
-                                            />
-                                        </AnimationWrapper>
-                                    );
-                                })
+                                <>
+                                    {/* 트렌딩 블로그 상단 광고 */}
+                                    <AdSense adSlot="2895700534" style={{ margin: '0 0 30px 0' }} />
+                                    
+                                    {trendingBlogs.map((blog, i) => {
+                                        return (
+                                            <AnimationWrapper
+                                                transition={{
+                                                    duration: 1,
+                                                    delay: i * 0.1,
+                                                }}
+                                                key={i}
+                                            >
+                                                <MinimalBlogPost
+                                                    blog={blog}
+                                                    index={i}
+                                                />
+                                            </AnimationWrapper>
+                                        );
+                                    })}
+                                </>
                             : <NoDataMessage message="No trending blogs" />
                         )}
                     </InPageNavigation>
@@ -172,6 +189,7 @@ const HomePage = () => {
                 {/* filters and trending blogs */}
                 <div className="min-w-[40%] lg:min-w-[400px] max-w-min border-l border-grey pl-8 pt-3 max-md:hidden">
                     <div className="flex flex-col gap-10">
+                        {/* 카테고리 섹션 */}
                         <div>
                             <h1 className="font-medium text-xl mb-8">
                                 Stories form all interests
@@ -188,7 +206,15 @@ const HomePage = () => {
                                 })}
                             </div>
                         </div>
+                        
+                        {/* 사이드바 광고 */}
+                        <AdSense 
+                            adSlot="3706790176"
+                            adFormat="fluid"
+                            style={{ margin: '10px 0' }}
+                        />
 
+                        {/* 트렌딩 섹션 */}
                         <div>
                             <h1 className="font-medium text-xl mb-8">
                                 Trending

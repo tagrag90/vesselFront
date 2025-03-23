@@ -9,6 +9,7 @@ import BlogPostCard from "../components/blog-post.component";
 import BlogContent from "../components/blog-content.component";
 import CommentsContainer, { fetchComments } from "../components/comments.component";
 import { Helmet } from 'react-helmet-async';
+import AdSense from "../components/AdSense";
 
 export const blogStructure = {
     title: '',
@@ -83,7 +84,7 @@ const BlogPage = () => {
     // banner URL을 절대 경로로 변환하는 함수
     const getFullImageUrl = (url) => {
         if (!url || url.includes('defaultbanner.jpeg')) {
-            return `${window.location.origin}/images/og-image.png`; // 기본 이미지
+            return `${window.location.origin}/images/defaultbanner.jpeg`; // 기본 이미지
         }
         if (url.startsWith('http')) return url;
         return `${import.meta.env.VITE_SERVER_DOMAIN}${url}`;
@@ -106,7 +107,7 @@ const BlogPage = () => {
         }
         
         // 기본 이미지 사용
-        const defaultUrl = `${window.location.origin}/images/og-image.png`;
+        const defaultUrl = `${window.location.origin}/images/defaultbanner.jpeg`;
         console.log('Using default URL:', defaultUrl); // 디버깅용
         return defaultUrl;
     };
@@ -180,38 +181,40 @@ const BlogPage = () => {
                                 </div>
                             </div>
 
-                            <BlogInteraction />
-
-                            <div className="my-12 font-gelasio blog-page-content">
-                                {
-                                    content[0].blocks.map((block, i) => {
-                                        return <div key={i} className="my-4 md:my-8">
+                            {content && content[0] && content[0].blocks && (
+                                <div className="my-12 font-gelasio blog-page-content">
+                                    {content[0].blocks.map((block, i) => (
+                                        <div key={i} className="my-4 md:my-8">
                                             <BlogContent block={block} />
                                         </div>
-                                    })
-                                }
-                            </div>
-
+                                    ))}
+                                </div>
+                            )}
+                            
+                            {/* 블로그 콘텐츠 아래 광고 배치 */}
+                            <AdSense adSlot="1234560001"/>
+                            
                             <BlogInteraction />
-
+                            
+                            {/* 관련 블로그 섹션 위에 광고 배치 */}
+                            <AdSense 
+                              adSlot="9053356050" 
+                              adFormat="fluid"
+                              style={{ margin: '30px 0' }}
+                            />
+                            
                             {
                                 similarBlogs != null && similarBlogs.length ?
-                                    <>
-                                        <h1 className="text-2xl mt-14 mb-10 font-medium">Similar Blogs</h1>
-
+                                <>
+                                    <h1 className="text-2xl mt-12 mb-8 font-medium">Similar Blogs</h1>
+                                    <div className="flex gap-5 flex-wrap">
                                         {
                                             similarBlogs.map((blog, i) => {
-
-                                                let { author: { personal_info } } = blog;
-
-                                                return <AnimationWrapper key={i} transition={{ duration: 1, delay: i*0.08 }}>
-                                                    <BlogPostCard content={blog} author={personal_info} />
-                                                </AnimationWrapper>
-
+                                                return <BlogPostCard content={blog} author={blog.author.personal_info} key={i} />
                                             })
                                         }
-                                    </>
-                                : " "
+                                    </div>
+                                </> : ""
                             }
 
                         </div>
