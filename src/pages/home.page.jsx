@@ -119,7 +119,7 @@ const HomePage = () => {
                     >
                         <>
                             {/* 최상단 광고 */}
-                            <AdSense adSlot="8942267138" style={{ margin: '0 0 30px 0' }} />
+                            <AdSense adSlot="3539444270" style={{ margin: '0 0 30px 0' }} />
                             
                             {blogs == null ? (
                                 <Loader />
@@ -143,7 +143,7 @@ const HomePage = () => {
                                                 />
                                                 {i === 4 && (
                                                     <AdSense 
-                                                        adSlot="1418983839" 
+                                                        adSlot="3539444270" 
                                                         adFormat="fluid"
                                                         style={{ margin: '30px 0' }}
                                                     />
@@ -162,7 +162,7 @@ const HomePage = () => {
                             trendingBlogs.length ?
                                 <>
                                     {/* 트렌딩 블로그 상단 광고 */}
-                                    <AdSense adSlot="2895700534" style={{ margin: '0 0 30px 0' }} />
+                                    <AdSense adSlot="3539444270" style={{ margin: '0 0 30px 0' }} />
                                     
                                     {trendingBlogs.map((blog, i) => {
                                         return (
@@ -209,7 +209,7 @@ const HomePage = () => {
                         
                         {/* 사이드바 광고 */}
                         <AdSense 
-                            adSlot="3706790176"
+                            adSlot="3539444270"
                             adFormat="fluid"
                             style={{ margin: '10px 0' }}
                         />

@@ -129,7 +129,7 @@ const ProfilePage = () => {
                                 <AboutUser className="max-md:hidden" bio={bio} social_links={social_links} joinedAt={joinedAt} />
                                 
                                 <AdSense 
-                                    adSlot="4517879817" 
+                                    adSlot="3539444270" 
                                     adFormat="fluid"
                                     style={{ margin: '20px 0' }}
                                 />
@@ -142,7 +142,7 @@ const ProfilePage = () => {
                                     defaultHidden={["About"]}
                                 >
                                     <>
-                                        <AdSense adSlot="5328969459" style={{ margin: '0 0 30px 0' }} />
+                                        <AdSense adSlot="3539444270" style={{ margin: '0 0 30px 0' }} />
                                         
                                         {blogs == null ? (
                                             <Loader />
@@ -165,7 +165,7 @@ const ProfilePage = () => {
                                                             />
                                                             {i === 2 && (
                                                                 <AdSense 
-                                                                    adSlot="6140059101"
+                                                                    adSlot="3539444270"
                                                                     adFormat="fluid"
                                                                     style={{ margin: '30px 0' }}
                                                                 />

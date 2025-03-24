@@ -192,13 +192,13 @@ const BlogPage = () => {
                             )}
                             
                             {/* 블로그 콘텐츠 아래 광고 배치 */}
-                            <AdSense adSlot="1234560001"/>
+                            <AdSense adSlot="3539444270"/>
                             
                             <BlogInteraction />
                             
                             {/* 관련 블로그 섹션 위에 광고 배치 */}
                             <AdSense 
-                              adSlot="9053356050" 
+                              adSlot="3539444270" 
                               adFormat="fluid"
                               style={{ margin: '30px 0' }}
                             />
