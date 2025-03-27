@@ -11,7 +11,6 @@ import BlogPostCard from "../components/blog-post.component";
 import NoDataMessage from "../components/nodata.component";
 import LoadMoreDataBtn from "../components/load-more.component";
 import PageNotFound from "./404.page";
-import AdSense from "../components/AdSense";
 
 export const profileDataStructure = {
     personal_info: {
@@ -127,23 +126,14 @@ const ProfilePage = () => {
                                 </div>
 
                                 <AboutUser className="max-md:hidden" bio={bio} social_links={social_links} joinedAt={joinedAt} />
-                                
-                                <AdSense 
-                                    adSlot="3539444270" 
-                                    adFormat="fluid"
-                                    style={{ margin: '20px 0' }}
-                                />
                             </div>
 
                             <div className="max-md:mt-12 w-full">
-
                             <InPageNavigation
                                     routes={[ "Blogs Published" , "About"]}
                                     defaultHidden={["About"]}
                                 >
                                     <>
-                                        <AdSense adSlot="3539444270" style={{ margin: '0 0 30px 0' }} />
-                                        
                                         {blogs == null ? (
                                             <Loader />
                                         ) : (
@@ -163,13 +153,6 @@ const ProfilePage = () => {
                                                                     blog.author.personal_info
                                                                 }
                                                             />
-                                                            {i === 2 && (
-                                                                <AdSense 
-                                                                    adSlot="3539444270"
-                                                                    adFormat="fluid"
-                                                                    style={{ margin: '30px 0' }}
-                                                                />
-                                                            )}
                                                         </AnimationWrapper>
                                                     );
                                                 })
@@ -179,9 +162,7 @@ const ProfilePage = () => {
                                     </>
 
                                     <AboutUser bio={bio} social_links={social_links} joinedAt={joinedAt} />
-
                                 </InPageNavigation>
-
                             </div>
 
                         </section>
