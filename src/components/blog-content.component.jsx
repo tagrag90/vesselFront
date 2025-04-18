@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 const Img = ({ url, caption }) => {
     return (
-        <div>
-            <img src={url} className="rounded-[20px] w-full" />
-            { caption.length ? <p className="w-full text-center my-3 md:mb-12 text-base text-dark-grey">{caption}</p> : "" }
+        <div className="max-lg:-mx-[5vw] max-lg:w-screen">
+            <img src={url} className="w-full max-lg:rounded-none rounded-[20px]" />
+            { caption.length ? <p className="w-full text-center my-3 md:mb-12 text-base text-dark-grey px-[5vw] max-lg:px-[5vw]">{caption}</p> : "" }
         </div>
     )
 }

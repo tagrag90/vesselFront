@@ -9,7 +9,6 @@ import BlogPostCard from "../components/blog-post.component";
 import BlogContent from "../components/blog-content.component";
 import CommentsContainer, { fetchComments } from "../components/comments.component";
 import { Helmet } from 'react-helmet-async';
-import AdSense from "../components/AdSense";
 
 export const blogStructure = {
     title: '',
@@ -127,16 +126,18 @@ const BlogPage = () => {
                     <BlogContext.Provider value={{ blog, setBlog, islikedByUser, setLikedByUser, commentsWrapper, setCommentsWrapper, totalParentCommentsLoaded, setTotalParentCommentsLoaded }}>
                         <CommentsContainer />
                         <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
-                            {/* 항상 이미지를 표시하되, URL은 조건에 따라 결정 */}
-                            <img 
-                                src={getFullImageUrl(banner)} 
-                                className="aspect-video rounded-[20px] w-full object-cover"
-                                alt={title || 'Blog banner'}
-                                onError={(e) => {
-                                    console.error('Image load error:', e);
-                                    e.target.src = `${window.location.origin}/images/defaultbanner.jpeg`;
-                                }}
-                            />
+                            {/* 배너 이미지 - 모바일에서 좌우 여백 없이 전체 너비 사용 */}
+                            <div className="max-lg:-mx-[5vw] max-lg:w-screen">
+                                <img 
+                                    src={getFullImageUrl(banner)} 
+                                    className="aspect-video w-full object-cover max-lg:rounded-none rounded-[20px]"
+                                    alt={title || 'Blog banner'}
+                                    onError={(e) => {
+                                        console.error('Image load error:', e);
+                                        e.target.src = `${window.location.origin}/images/defaultbanner.jpeg`;
+                                    }}
+                                />
+                            </div>
                             
                             <div className="mt-12">
                                 <h2>{title}</h2>
@@ -168,15 +169,6 @@ const BlogPage = () => {
                             )}
                             
                             <BlogInteraction />
-                            
-                            {/* 관련 블로그 섹션 위에 광고 배치 - 충분한 콘텐츠가 있을 때만 광고 표시 */}
-                            {similarBlogs != null && similarBlogs.length > 1 && (
-                                <AdSense 
-                                  adSlot="3539444270" 
-                                  adFormat="fluid"
-                                  style={{ margin: '30px 0' }}
-                                />
-                            )}
                             
                             {
                                 similarBlogs != null && similarBlogs.length ?

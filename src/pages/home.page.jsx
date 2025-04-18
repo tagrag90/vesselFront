@@ -1,31 +1,33 @@
 import axios from "axios";
 import AnimationWrapper from "../common/page-animation";
-import InPageNavigation from "../components/inpage-navigation.component";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Loader from "../components/loader.component";
 import BlogPostCard from "../components/blog-post.component";
 import MinimalBlogPost from "../components/nobanner-blog-post.component";
-import { activeTabRef } from "../components/inpage-navigation.component";
 import NoDataMessage from "../components/nodata.component";
 import { filterPaginationData } from "../common/filter-pagination-data";
 import LoadMoreDataBtn from "../components/load-more.component";
-import AdSense from "../components/AdSense";
+import { UserContext } from "../App";
+import { useLocation } from "react-router-dom";
+import BlogSlideCard from "../components/blog-slide.component";
+import PromoBanner from "../components/promo-banner.component";
+import MarqueeBanner from "../components/marquee-banner.component";
+import bLogo from "../imgs/b-logo.png";
 
 const HomePage = () => {
     let [blogs, setBlog] = useState(null);
     let [trendingBlogs, setTrendingBlog] = useState(null);
-    let [ pageState, setPageState ] = useState("home");
-
-    let categories = [
-        "vessel",
-        "social media",
-        "cooking",
-        "tech",
-        "K-drama",
-        "music",
-        "K-fashion",
-        "K-beauty",
-    ];
+    let [featuredBlogs, setFeaturedBlogs] = useState([]);
+    const location = useLocation();
+    
+    // URL에서 카테고리 정보 가져오기
+    const getPageStateFromURL = () => {
+        const searchParams = new URLSearchParams(location.search);
+        return searchParams.get('category') || 'home';
+    };
+    
+    // 현재 선택된 카테고리
+    let pageState = getPageStateFromURL();
 
     const fetchLatestBlogs = ({ page = 1 }) => {
         axios
@@ -77,25 +79,10 @@ const HomePage = () => {
             });
     };
 
-    const loadBlogByCategory = (e) => {
-        
-        let category = e.target.innerText.toLowerCase(); 
-
-        setBlog(null);
-
-        if(pageState == category){
-            setPageState("home");
-            return;
-        }
-
-        setPageState(category);
-
-    }
-
     useEffect(() => {
-
-        activeTabRef.current.click();
-
+        // 페이지 상태에 따라 데이터 로드
+        setBlog(null);
+        
         if(pageState == "home"){
             fetchLatestBlogs({ page: 1 });
         } else {
@@ -105,153 +92,79 @@ const HomePage = () => {
         if(!trendingBlogs){
             fetchTrendingBlogs();
         }
-
-    }, [pageState]);
+        
+        // 메인 슬라이드용 피처드 블로그 가져오기
+        axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", { limit: 5 })
+        .then(({ data }) => {
+            setFeaturedBlogs(data.blogs);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+        
+    }, [pageState, location.search]);
 
     return (
         <AnimationWrapper>
+            {/* 마퀴 배너 */}
+            <MarqueeBanner 
+                text="Let's Divtobada 🌊" 
+                altText="We create Community and solution for K-culture 👊" 
+                bgColor="#000000" 
+                textColor="#ffffff" 
+                imageSrc={bLogo} 
+            />
+            
+            {/* 프로모션 배너 섹션 - 토스뱅크 스타일 */}
+            <section className="py-4 lg:px-[10vw] md:lg:px-[7vw] px-0">
+                <PromoBanner />
+            </section>
+            
             <section className="h-cover flex justify-center gap-10">
-                {/* latest blogs */}
-                <div className="w-full">
-                    <InPageNavigation
-                        routes={[ pageState , "trending blogs"]}
-                        defaultHidden={["trending blogs"]}
-                    >
-                        <>
-                            {/* 블로그 목록이 있을 때만 최상단 광고 표시 */}
-                            {blogs != null && blogs.results && blogs.results.length > 3 && (
-                                <AdSense adSlot="8942267138" style={{ margin: '0 0 30px 0' }} />
-                            )}
-                            
-                            {blogs == null ? (
-                                <Loader />
-                            ) : (
-                                blogs.results.length ? 
-                                    blogs.results.map((blog, i) => {
-                                        // 5번째 블로그 포스트 다음에 광고 삽입
-                                        return (
-                                            <AnimationWrapper
-                                                transition={{
-                                                    duration: 1,
-                                                    delay: i * 0.1,
-                                                }}
-                                                key={i}
-                                            >
-                                                <BlogPostCard
-                                                    content={blog}
-                                                    author={
-                                                        blog.author.personal_info
-                                                    }
-                                                />
-                                                {/* 블로그 포스트가 충분할 때만 중간 광고 표시 */}
-                                                {i === 4 && blogs.results.length >= 8 && (
-                                                    <AdSense 
-                                                        adSlot="1418983839" 
-                                                        adFormat="fluid"
-                                                        style={{ margin: '30px 0' }}
-                                                    />
-                                                )}
-                                            </AnimationWrapper>
-                                        );
-                                    })
-                                : <NoDataMessage message="No blogs published" />
-                            )}
-                            <LoadMoreDataBtn state={blogs} fetchDataFun={( pageState == "home" ? fetchLatestBlogs : fetchBlogsByCategory )} />
-                        </>
-
-                        {trendingBlogs == null ? (
-                            <Loader />
-                        ) : (
-                            trendingBlogs.length ?
-                                <>
-                                    {/* 트렌딩 블로그가 충분할 때만 광고 표시 */}
-                                    {trendingBlogs.length >= 3 && (
-                                        <AdSense adSlot="2895700534" style={{ margin: '0 0 30px 0' }} />
-                                    )}
-                                    
-                                    {trendingBlogs.map((blog, i) => {
-                                        return (
-                                            <AnimationWrapper
-                                                transition={{
-                                                    duration: 1,
-                                                    delay: i * 0.1,
-                                                }}
-                                                key={i}
-                                            >
-                                                <MinimalBlogPost
-                                                    blog={blog}
-                                                    index={i}
-                                                />
-                                            </AnimationWrapper>
-                                        );
-                                    })}
-                                </>
-                            : <NoDataMessage message="No trending blogs" />
-                        )}
-                    </InPageNavigation>
-                </div>
-
-                {/* filters and trending blogs */}
-                <div className="min-w-[40%] lg:min-w-[400px] max-w-min border-l border-grey pl-8 pt-3 max-md:hidden">
-                    <div className="flex flex-col gap-10">
-                        {/* 카테고리 섹션 */}
-                        <div>
-                            <h1 className="font-medium text-xl mb-8">
-                                Stories form all interests
-                            </h1>
-
-                            <div className="flex gap-3 flex-wrap">
-                                {categories.map((category, i) => {
+                {/* 콘텐츠 영역 */}
+                <div className="max-w-7xl w-full mx-auto">
+                    {/* 섹션 타이틀 */}
+                    <h2 className="text-3xl font-bold mb-2">News & Article</h2>
+                    <p className="text-gray-600 mb-6">대중문화예술과 함께하고 있는 Studio_bada의 스토리를 둘러보세요</p>
+                    
+                    {/* 블로그 포스트 목록 */}
+                    {blogs == null ? (
+                        <Loader />
+                    ) : (
+                        blogs.results.length ? 
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {blogs.results.map((blog, i) => {
                                     return (
-                                        <button onClick={loadBlogByCategory} className={"tag " + (pageState == category ? " bg-black text-white " : " ")} 
-                                        key={i}>
-                                            {category}
-                                        </button>
+                                        <AnimationWrapper
+                                            transition={{
+                                                duration: 1,
+                                                delay: i * 0.1,
+                                            }}
+                                            key={i}
+                                        >
+                                            <BlogPostCard
+                                                content={blog}
+                                                author={
+                                                    blog.author.personal_info
+                                                }
+                                            />
+                                        </AnimationWrapper>
                                     );
                                 })}
                             </div>
-                        </div>
-                        
-                        {/* 충분한 트렌딩 블로그가 있을 때만 사이드바 광고 표시 */}
-                        {trendingBlogs && trendingBlogs.length >= 3 && (
-                            <AdSense 
-                                adSlot="3706790176"
-                                adFormat="fluid"
-                                style={{ margin: '10px 0' }}
-                            />
-                        )}
-
-                        {/* 트렌딩 섹션 */}
-                        <div>
-                            <h1 className="font-medium text-xl mb-8">
-                                Trending
-                                <i className="fi fi-rr-arrow-trend-up"></i>
-                            </h1>
-
-                            {trendingBlogs == null ? (
-                                <Loader />
-                            ) : (
-                                trendingBlogs.length ? 
-                                    trendingBlogs.map((blog, i) => {
-                                        return (
-                                            <AnimationWrapper
-                                                transition={{
-                                                    duration: 1,
-                                                    delay: i * 0.1,
-                                                }}
-                                                key={i}
-                                            >
-                                                <MinimalBlogPost
-                                                    blog={blog}
-                                                    index={i}
-                                                />
-                                            </AnimationWrapper>
-                                        );
-                                    })
-                                : <NoDataMessage message="No trending blogs" />
-                            )}
-                        </div>
-                    </div>
+                        : <NoDataMessage message="No blogs published" />
+                    )}
+                    
+                    {/* 더 불러오기 버튼 */}
+                    {blogs && blogs.results.length > 0 && (
+                        <LoadMoreDataBtn 
+                            state={blogs} 
+                            fetchDataFun={pageState === "home" ? fetchLatestBlogs : fetchBlogsByCategory} 
+                        />
+                    )}
+                    
+                    {/* 피처드 슬라이드 카드 - 하단 배너 */}
+                    {featuredBlogs.length > 0 && <BlogSlideCard featuredBlogs={featuredBlogs} />}
                 </div>
             </section>
         </AnimationWrapper>

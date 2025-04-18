@@ -37,7 +37,9 @@ export const ManagePublishedBlogCard = ({ blog }) => {
         <>
             <div className="flex gap-10 border-b mb-6 max-md:px-4 border-grey pb-6 items-center">
 
-                <img src={banner || defaultBanner} className="max-md:hidden lg:hidden xl:block w-28 h-28 flex-none bg-grey object-cover" />
+                <div className="max-md:hidden lg:hidden xl:block w-28 h-28 flex-none bg-grey aspect-video">
+                    <img src={banner || defaultBanner} className="w-full h-full object-cover" />
+                </div>
 
                 <div className="flex flex-col justify-between py-2 w-full min-w-[300px]">
                     <div>
