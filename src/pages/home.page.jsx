@@ -13,6 +13,7 @@ import BlogSlideCard from "../components/blog-slide.component";
 import PromoBanner from "../components/promo-banner.component";
 import MarqueeBanner from "../components/marquee-banner.component";
 import bLogo from "../imgs/b-logo.png";
+import logoDark from "../imgs/logo-dark.png";
 
 const HomePage = () => {
     let [blogs, setBlog] = useState(null);

@@ -25,7 +25,7 @@ const MarqueeBanner = ({
                         key={`img1-${i}`} 
                         src={imageSrc} 
                         alt="" 
-                        className="h-8 w-auto inline-block mx-3" 
+                        className="h-10 w-auto inline-block mx-3" 
                     />
                 );
                 // 두 번째 텍스트 (altText가 있는 경우)
@@ -41,7 +41,7 @@ const MarqueeBanner = ({
                             key={`img2-${i}`} 
                             src={imageSrc} 
                             alt="" 
-                            className="h-8 w-auto inline-block mx-3" 
+                            className="h-10 w-auto inline-block mx-3" 
                         />
                     );
                 }

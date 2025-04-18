@@ -17,6 +17,10 @@ import ManageBlogs from "./pages/manage-blogs.page";
 import FixedButton from './components/FixedButton';
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from 'react-helmet-async';
+import Footer from './components/footer.component';
+import ProductPage from './pages/product.page';
+import ContentPage from './pages/content.page';
+import AboutPage from './pages/about.page';
 
 export const UserContext = createContext({})
 
@@ -69,6 +73,9 @@ const App = () => {
                                 <Route path="edit-profile" element={<EditProfile />} />
                                 <Route path="change-password" element={<ChangePassword />} />
                             </Route>
+                            <Route path="product" element={<ProductPage />} />
+                            <Route path="content" element={<ContentPage />} />
+                            <Route path="about" element={<AboutPage />} />
                             <Route path="signin" element={<UserAuthForm type="sign-in" />} /> 
                             <Route path="signup" element={<UserAuthForm type="sign-up" />} />
                             <Route path="search/:query" element={<SearchPage />} />
@@ -79,6 +86,7 @@ const App = () => {
                     </Routes>
                     <FixedButton />
                     <Analytics />
+                    <Footer />
                 </UserContext.Provider>
             </ThemeContext.Provider>
         </HelmetProvider>

@@ -22,6 +22,23 @@ const Navbar = () => {
 
     const { userAuth, userAuth: { access_token, profile_img, new_notification_available }, setUserAuth } = useContext(UserContext);
 
+    // 현재 경로에 따라 pageState 설정
+    useEffect(() => {
+        // 현재 URL 경로 확인
+        const path = location.pathname;
+        
+        // 경로에 따라 페이지 상태 설정
+        if (path === '/') {
+            setPageState('home');
+        } else if (path === '/product') {
+            setPageState('product');
+        } else if (path.includes('/article')) {
+            setPageState('content');
+        } else if (path === '/about') {
+            setPageState('about');
+        }
+    }, [location]); // location이 변경될 때마다 실행
+
     useEffect(() => {
 
         if(access_token){
@@ -42,10 +59,28 @@ const Navbar = () => {
 
     // 카테고리 변경 함수
     const loadBlogByCategory = (e) => {
-        let category = e.target.innerText.toLowerCase(); 
+        let categoryText = e.target.innerText;
+        let category = categoryText.toLowerCase();
 
-        if(pageState == category){
+        // 각 카테고리별 이동 처리
+        if(category === "product") {
+            navigate('/product');
+            setPageState(categoryText.toLowerCase());
+            return;
+        } else if(category === "content") {
+            navigate('/content');  // 콘텐츠 페이지로 이동
+            setPageState(categoryText.toLowerCase());
+            return;
+        } else if(category === "about") {
+            navigate('/about');
+            setPageState(categoryText.toLowerCase());
+            return;
+        }
+
+        // 홈 카테고리인 경우
+        if(category === "home") {
             setPageState("home");
+            navigate('/');
         } else {
             setPageState(category);
         }
@@ -88,9 +123,9 @@ const Navbar = () => {
 
     // 카테고리 목록
     const categories = [
+        "About",
         "Product",
-        "Content",
-        "About"
+        "Content"
     ];
 
     return (
@@ -98,8 +133,8 @@ const Navbar = () => {
             {/* 탭바가 내비게이션 바를 포함하는 구조로 변경 */}
             <div className="bg-black text-white">
                 {/* 내비게이션 바 */}
-                <nav className="navbar z-50 relative">
-                    <div className="w-full flex items-center justify-center relative">
+                <nav className="navbar z-50 relative p-3">
+                    <div className="w-full flex items-center justify-between relative">
                         {/* 모바일에서는 B 로고 이미지, 데스크톱에서는 텍스트 로고 */}
                         <Link to="/" className="flex-none w-12 h-12 md:hidden">
                             <img src={bLogo} className="w-full" alt="B Logo" />
@@ -185,7 +220,7 @@ const Navbar = () => {
                                 <button 
                                     key={i} 
                                     onClick={loadBlogByCategory} 
-                                    className={"py-2 text-sm whitespace-nowrap font-medium border-b-2 " + (pageState === category ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white")}
+                                    className={"py-2 text-sm whitespace-nowrap font-medium border-b-2 " + (pageState === category.toLowerCase() ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white")}
                                 >
                                     {category}
                                 </button>

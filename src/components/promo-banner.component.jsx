@@ -18,26 +18,6 @@ const PromoBanner = () => {
             linkUrl: "/promo/pets",
             bgColor: "#f5f5f7",
             textColor: "#000000"
-        },
-        {
-            id: 2,
-            title: "헬스장, 수영장 이용료도",
-            subtitle: "소득공제 된다고요?",
-            description: "연말정산 시 세금 혜택을 받을 수 있는 문화비 소득공제. 7월부터 헬스장과 수영장 이용료도 소득공제 대상에 포함되어요.",
-            ctaText: "자세히 보기",
-            linkUrl: "/promo/tax",
-            bgColor: "#e3f2fd",
-            textColor: "#000000"
-        },
-        {
-            id: 3,
-            title: "관세 뜻부터, 보편·상호관세",
-            subtitle: "차이까지 알아보아요",
-            description: "관세란, 외국과 물건을 사고팔 때 내는 세금이에요. 보편관세란 똑같은 세금을 부과하고, 상호관세란 상대국이 부과하는 만큼 세율을 적용해요.",
-            ctaText: "자세히 보기",
-            linkUrl: "/promo/tax-info",
-            bgColor: "#f9fbe7",
-            textColor: "#000000"
         }
     ];
 
