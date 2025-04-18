@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import defaultBanner from "../imgs/defaultbanner.png";
+import PropTypes from 'prop-types';
 
 const BlogStats = ({ stats }) => {
 
@@ -19,8 +20,11 @@ const BlogStats = ({ stats }) => {
             }
         </div>
     )
-
 }
+
+BlogStats.propTypes = {
+    stats: PropTypes.object.isRequired
+};
 
 export const ManagePublishedBlogCard = ({ blog }) => {
 
@@ -65,6 +69,18 @@ export const ManagePublishedBlogCard = ({ blog }) => {
     )
 }
 
+ManagePublishedBlogCard.propTypes = {
+    blog: PropTypes.shape({
+        banner: PropTypes.string,
+        blog_id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        publishedAt: PropTypes.string.isRequired,
+        activity: PropTypes.object.isRequired,
+        index: PropTypes.number,
+        setStateFunc: PropTypes.func
+    }).isRequired
+};
+
 export const ManageDraftBlogPost = ({ blog }) => {
 
     let { title, des, blog_id, index } = blog;
@@ -82,7 +98,7 @@ export const ManageDraftBlogPost = ({ blog }) => {
 
                 <h1 className="blog-title mb-3">{title}</h1>
 
-                <p className="line-clamp-2 font-gelasio">{des.length ? des : "No Description"}</p>
+                <p className="line-clamp-2 font-gelasio">{des && des.length ? des : "No Description"}</p>
 
                 <div className="flex gap-6 mt-3">
                     <Link to={`/editor/${blog_id}`} className="pr-4 py-2 underline">Edit</Link>
@@ -96,6 +112,16 @@ export const ManageDraftBlogPost = ({ blog }) => {
     )
 }
 
+ManageDraftBlogPost.propTypes = {
+    blog: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        des: PropTypes.string,
+        blog_id: PropTypes.string.isRequired,
+        index: PropTypes.number.isRequired,
+        setStateFunc: PropTypes.func
+    }).isRequired
+};
+
 const deleteBlog = (blog, access_token, target) => {
 
     let { index, blog_id, setStateFunc } = blog;
@@ -107,12 +133,10 @@ const deleteBlog = (blog, access_token, target) => {
             'Authorization': `Bearer ${access_token}`
         }
     })
-    .then(({ data }) => {
-
+    .then(() => {
         target.removeAttribute("disabled");
 
         setStateFunc(preVal => {
-
             let { deletedDocCount, totalDocs, results } = preVal;
 
             results.splice(index, 1);
@@ -125,15 +149,10 @@ const deleteBlog = (blog, access_token, target) => {
                 return null;
             }
 
-            console.log({ ...preVal, totalDocs: totalDocs - 1, deleteDocCount: deletedDocCount + 1 });
-
             return { ...preVal, totalDocs: totalDocs - 1, deleteDocCount: deletedDocCount + 1 }
-
         })
-
     })
     .catch(err => {
         console.log(err);
     })
-
 }

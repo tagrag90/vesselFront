@@ -73,14 +73,6 @@ const BlogPage = () => {
         setTotalParentCommentsLoaded(0);
     }
 
-    // 블로그 내용에서 첫 번째 이미지 URL을 찾는 함수
-    const getFirstImageUrl = () => {
-        if (!content || !content[0] || !content[0].blocks) return '';
-        
-        const imageBlock = content[0].blocks.find(block => block.type === 'image');
-        return imageBlock ? imageBlock.data.file.url : '';
-    };
-
     // banner URL을 절대 경로로 변환하는 함수
     const getFullImageUrl = (url) => {
         if (!url || url.includes('defaultbanner.jpeg')) {
@@ -90,32 +82,16 @@ const BlogPage = () => {
         return `${import.meta.env.VITE_SERVER_DOMAIN}${url}`;
     };
 
-    // 배너 표시 여부를 결정하는 함수
-    const shouldShowBanner = (bannerUrl) => {
-        return bannerUrl && bannerUrl.trim().length > 0;
-    };
-
     // OpenGraph 이미지 URL 결정
     const getOgImageUrl = () => {
-        console.log('Current banner:', banner); // 디버깅용
-        
         // banner가 있고 유효한 URL인 경우
         if (banner && banner.trim().length > 0 && !banner.includes('defaultbanner.jpeg')) {
-            const fullUrl = getFullImageUrl(banner);
-            console.log('Using banner URL:', fullUrl); // 디버깅용
-            return fullUrl;
+            return getFullImageUrl(banner);
         }
         
         // 기본 이미지 사용
-        const defaultUrl = `${window.location.origin}/images/defaultbanner.jpeg`;
-        console.log('Using default URL:', defaultUrl); // 디버깅용
-        return defaultUrl;
+        return `${window.location.origin}/images/defaultbanner.jpeg`;
     };
-
-    useEffect(() => {
-        console.log('Original banner:', banner);
-        console.log('Processed banner URL:', getFullImageUrl(banner));
-    }, [banner]);
 
     return (
         <>
@@ -191,17 +167,16 @@ const BlogPage = () => {
                                 </div>
                             )}
                             
-                            {/* 블로그 콘텐츠 아래 광고 배치 */}
-                            <AdSense adSlot="3539444270"/>
-                            
                             <BlogInteraction />
                             
-                            {/* 관련 블로그 섹션 위에 광고 배치 */}
-                            <AdSense 
-                              adSlot="3539444270" 
-                              adFormat="fluid"
-                              style={{ margin: '30px 0' }}
-                            />
+                            {/* 관련 블로그 섹션 위에 광고 배치 - 충분한 콘텐츠가 있을 때만 광고 표시 */}
+                            {similarBlogs != null && similarBlogs.length > 1 && (
+                                <AdSense 
+                                  adSlot="3539444270" 
+                                  adFormat="fluid"
+                                  style={{ margin: '30px 0' }}
+                                />
+                            )}
                             
                             {
                                 similarBlogs != null && similarBlogs.length ?

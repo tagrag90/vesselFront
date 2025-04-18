@@ -118,8 +118,10 @@ const HomePage = () => {
                         defaultHidden={["trending blogs"]}
                     >
                         <>
-                            {/* 최상단 광고 */}
-                            <AdSense adSlot="3539444270" style={{ margin: '0 0 30px 0' }} />
+                            {/* 블로그 목록이 있을 때만 최상단 광고 표시 */}
+                            {blogs != null && blogs.results && blogs.results.length > 3 && (
+                                <AdSense adSlot="8942267138" style={{ margin: '0 0 30px 0' }} />
+                            )}
                             
                             {blogs == null ? (
                                 <Loader />
@@ -141,9 +143,10 @@ const HomePage = () => {
                                                         blog.author.personal_info
                                                     }
                                                 />
-                                                {i === 4 && (
+                                                {/* 블로그 포스트가 충분할 때만 중간 광고 표시 */}
+                                                {i === 4 && blogs.results.length >= 8 && (
                                                     <AdSense 
-                                                        adSlot="3539444270" 
+                                                        adSlot="1418983839" 
                                                         adFormat="fluid"
                                                         style={{ margin: '30px 0' }}
                                                     />
@@ -161,8 +164,10 @@ const HomePage = () => {
                         ) : (
                             trendingBlogs.length ?
                                 <>
-                                    {/* 트렌딩 블로그 상단 광고 */}
-                                    <AdSense adSlot="3539444270" style={{ margin: '0 0 30px 0' }} />
+                                    {/* 트렌딩 블로그가 충분할 때만 광고 표시 */}
+                                    {trendingBlogs.length >= 3 && (
+                                        <AdSense adSlot="2895700534" style={{ margin: '0 0 30px 0' }} />
+                                    )}
                                     
                                     {trendingBlogs.map((blog, i) => {
                                         return (
@@ -207,12 +212,14 @@ const HomePage = () => {
                             </div>
                         </div>
                         
-                        {/* 사이드바 광고 */}
-                        <AdSense 
-                            adSlot="3539444270"
-                            adFormat="fluid"
-                            style={{ margin: '10px 0' }}
-                        />
+                        {/* 충분한 트렌딩 블로그가 있을 때만 사이드바 광고 표시 */}
+                        {trendingBlogs && trendingBlogs.length >= 3 && (
+                            <AdSense 
+                                adSlot="3706790176"
+                                adFormat="fluid"
+                                style={{ margin: '10px 0' }}
+                            />
+                        )}
 
                         {/* 트렌딩 섹션 */}
                         <div>

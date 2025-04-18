@@ -5,9 +5,38 @@ const AdSense = ({ adSlot, adFormat, style }) => {
   const adRef = useRef(null);
   const [isAdLoaded, setIsAdLoaded] = useState(false);
   const [adAttempts, setAdAttempts] = useState(0);
+  const [contentReady, setContentReady] = useState(false);
+
+  // 콘텐츠가 로드되었는지 확인하는 함수
+  useEffect(() => {
+    // 페이지 콘텐츠가 충분히 로드되었는지 확인
+    const checkContentReady = () => {
+      const mainContent = document.querySelector('.blog-page-content') || 
+                          document.querySelector('h1.blog-title') ||
+                          document.querySelector('.blog-interaction');
+      
+      // 충분한 콘텐츠가 있는지 확인
+      if (mainContent) {
+        setContentReady(true);
+      } else {
+        // 콘텐츠가 아직 로드되지 않았다면 잠시 후 다시 확인
+        setTimeout(checkContentReady, 1000);
+      }
+    };
+
+    // DOM이 완전히 로드된 후에 콘텐츠 확인 시작
+    if (document.readyState === 'complete') {
+      checkContentReady();
+    } else {
+      window.addEventListener('load', checkContentReady);
+      return () => window.removeEventListener('load', checkContentReady);
+    }
+  }, []);
 
   useEffect(() => {
-    // 컴포넌트가 마운트된 후에만 광고를 로드합니다
+    // 콘텐츠가 준비되었고, 컴포넌트가 마운트된 후에만 광고를 로드
+    if (!contentReady) return;
+
     const loadAd = () => {
       try {
         if (window.adsbygoogle && adRef.current && !adRef.current.dataset.adsbygoogleStatus && adAttempts < 3) {
@@ -35,19 +64,15 @@ const AdSense = ({ adSlot, adFormat, style }) => {
       }
     };
 
-    // 페이지가 완전히 로드된 후 광고 로드
-    const handleLoad = () => {
-      // 약간의 지연 후 광고 로드 (페이지 로드 후 500ms)
-      setTimeout(loadAd, 500);
-    };
+    // 콘텐츠가 준비된 후 3초 지연 후 광고 로드 (사용자가 콘텐츠를 볼 시간 제공)
+    const timer = setTimeout(loadAd, 3000);
+    return () => clearTimeout(timer);
+  }, [adSlot, adAttempts, contentReady]);
 
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
-    }
-  }, [adSlot, adAttempts]);
+  // 콘텐츠가 준비되지 않았으면 광고를 표시하지 않음
+  if (!contentReady) {
+    return null;
+  }
 
   // 광고 컨테이너 스타일 설정
   const containerStyle = {
