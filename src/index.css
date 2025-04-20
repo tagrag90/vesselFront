@@ -2,6 +2,23 @@
 @import "@flaticon/flaticon-uicons/css/all/all";
 @import "./editor-theme.css";
 
+/* 학교안심별빛하늘 폰트 등록 */
+@font-face {
+    font-family: 'HakgyoansimByeolbichhaneul';
+    src: url('/fonts/Hakgyoansim Byeolbichhaneul TTF L.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HakgyoansimByeolbichhaneul';
+    src: url('/fonts/Hakgyoansim Byeolbichhaneul TTF B.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

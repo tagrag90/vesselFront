@@ -100,7 +100,7 @@ const ContentPage = () => {
             {/* 콘텐츠 탭 네비게이션 */}
             <div style={{backgroundColor: "#000000"}} className="border-b border-gray-800">
                 <div className="container mx-auto px-4 max-w-6xl">
-                    <div className="flex">
+                    <div className="flex justify-center">
                         <button 
                             className={`py-4 px-6 font-medium text-lg ${activeTab === 'videos' ? 'border-b-2 border-white text-white' : 'text-gray-400'}`}
                             onClick={() => setActiveTab('videos')}

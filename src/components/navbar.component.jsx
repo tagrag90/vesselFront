@@ -209,7 +209,7 @@ const Navbar = () => {
                 {/* 탭바 */}
                 <div className="" style={{backgroundColor: '#000000'}}>
                     <div className="max-w-3xl w-full mx-auto px-4">
-                        <div className="flex gap-6 overflow-x-auto">
+                        <div className="flex justify-center gap-6 overflow-x-auto">
                             <button 
                                 onClick={loadBlogByCategory} 
                                 className={"py-2 text-sm font-medium border-b-2 " + (pageState === "home" ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white")}
