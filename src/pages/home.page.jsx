@@ -9,9 +9,8 @@ import { filterPaginationData } from "../common/filter-pagination-data";
 import LoadMoreDataBtn from "../components/load-more.component";
 import { UserContext } from "../App";
 import { useLocation } from "react-router-dom";
-import BlogSlideCard from "../components/blog-slide.component";
-import PromoBanner from "../components/promo-banner.component";
 import MarqueeBanner from "../components/marquee-banner.component";
+import HeroBanner from "../components/hero-banner.component";
 import bLogo from "../imgs/b-logo.png";
 import logoDark from "../imgs/logo-dark.png";
 
@@ -116,10 +115,12 @@ const HomePage = () => {
                 imageSrc={bLogo} 
             />
             
-            {/* 프로모션 배너 섹션 - 토스뱅크 스타일 */}
-            <section className="py-4 lg:px-[10vw] md:lg:px-[7vw] px-0">
-                <PromoBanner />
-            </section>
+            {/* 히어로 배너 - 최근 아티클 슬라이딩 */}
+            {featuredBlogs.length > 0 && (
+                <div className="mt-8 md:mt-12 lg:mt-16">
+                    <HeroBanner featuredBlogs={featuredBlogs} />
+                </div>
+            )}
             
             <section className="h-cover flex justify-center gap-10">
                 {/* 콘텐츠 영역 */}
@@ -163,9 +164,7 @@ const HomePage = () => {
                             fetchDataFun={pageState === "home" ? fetchLatestBlogs : fetchBlogsByCategory} 
                         />
                     )}
-                    
-                    {/* 피처드 슬라이드 카드 - 하단 배너 */}
-                    {featuredBlogs.length > 0 && <BlogSlideCard featuredBlogs={featuredBlogs} />}
+
                 </div>
             </section>
         </AnimationWrapper>

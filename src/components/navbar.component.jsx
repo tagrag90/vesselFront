@@ -30,12 +30,8 @@ const Navbar = () => {
         // 경로에 따라 페이지 상태 설정
         if (path === '/') {
             setPageState('home');
-        } else if (path === '/product') {
-            setPageState('product');
         } else if (path.includes('/article')) {
             setPageState('content');
-        } else if (path === '/about') {
-            setPageState('about');
         }
     }, [location]); // location이 변경될 때마다 실행
 
@@ -63,16 +59,8 @@ const Navbar = () => {
         let category = categoryText.toLowerCase();
 
         // 각 카테고리별 이동 처리
-        if(category === "product") {
-            navigate('/product');
-            setPageState(categoryText.toLowerCase());
-            return;
-        } else if(category === "content") {
+        if(category === "content") {
             navigate('/content');  // 콘텐츠 페이지로 이동
-            setPageState(categoryText.toLowerCase());
-            return;
-        } else if(category === "about") {
-            navigate('/about');
             setPageState(categoryText.toLowerCase());
             return;
         }
@@ -123,8 +111,6 @@ const Navbar = () => {
 
     // 카테고리 목록
     const categories = [
-        "About",
-        "Product",
         "Content"
     ];
 
