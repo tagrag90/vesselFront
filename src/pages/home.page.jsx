@@ -45,6 +45,7 @@ const HomePage = () => {
             })
             .catch((err) => {
                 console.log(err);
+                // toast 에러 제거 - 콘솔만
             });
     };
 
@@ -65,6 +66,7 @@ const HomePage = () => {
             })
             .catch((err) => {
                 console.log(err);
+                // toast 에러 제거 - 콘솔만
             });
     }
 
@@ -76,6 +78,7 @@ const HomePage = () => {
             })
             .catch((err) => {
                 console.log(err);
+                // toast 에러 제거 - 콘솔만
             });
     };
 

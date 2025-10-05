@@ -147,6 +147,18 @@ const UserAuthForm = ({ type }) => {
                         continue with google
                     </button>
 
+                    <div className="w-[90%] center mt-4" style={{ height: '60px' }}>
+                        <iframe 
+                            src="http://localhost:3000/api/widget/login-button?redirect=http://localhost:5173/sso&service=vessel"
+                            width="100%" 
+                            height="60"
+                            frameBorder="0"
+                            scrolling="no"
+                            style={{ border: 'none', display: 'block' }}
+                            title="Login with Divetobada"
+                        />
+                    </div>
+
                     {
 
                         type == "sign-in" ?

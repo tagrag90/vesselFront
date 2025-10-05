@@ -19,6 +19,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from 'react-helmet-async';
 import Footer from './components/footer.component';
 import ContentPage from './pages/content.page';
+import SSOPage from './pages/sso.page';
 
 export const UserContext = createContext({})
 
@@ -59,6 +60,7 @@ const App = () => {
             <ThemeContext.Provider value={{ theme, setTheme }}>
                 <UserContext.Provider value={{userAuth, setUserAuth}}>
                     <Routes>
+                        <Route path="/sso" element={<SSOPage />} />
                         <Route path="/editor" element={<Editor />} />
                         <Route path="/editor/:blog_id" element={<Editor />} />
                         <Route path="/" element={<Navbar />}> 
