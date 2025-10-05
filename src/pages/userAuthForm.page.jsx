@@ -149,7 +149,7 @@ const UserAuthForm = ({ type }) => {
 
                     <div className="w-[90%] center mt-4" style={{ height: '60px' }}>
                         <iframe 
-                            src="http://localhost:3000/api/widget/login-button?redirect=http://localhost:5173/sso&service=vessel"
+                            src={`${import.meta.env.VITE_DIVETOBADA_URL || 'http://localhost:3000'}/api/widget/login-button?redirect=${encodeURIComponent('https://vessel.today/sso')}&service=vessel`}
                             width="100%" 
                             height="60"
                             frameBorder="0"
