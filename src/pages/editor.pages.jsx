@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import { Navigate, useParams } from "react-router-dom";
 import BlogEditor from "../components/blog-editor.component";
-import PublishForm from "../components/publish-form.component";
 import { createContext } from 'react';
 import Loader from "../components/loader.component";
 import axios from "axios";
@@ -10,8 +9,8 @@ import defaultBanner from "../imgs/defaultbanner.png";
 
 const blogStructure = {
     title: '',
-    banner: defaultBanner,
-    conent: [],
+    banner: '',
+    content: [],
     tags: [],
     des: '',
     author: { personal_info: { } }
@@ -24,7 +23,6 @@ const Editor = () => {
     let { blog_id } = useParams();
 
     const [ blog, setBlog ] = useState(blogStructure)
-    const [ editorState, setEditorState ] = useState("editor");
     const [ textEditor, setTextEditor ] = useState({ isReady: false });
     const [ loading, setLoading ] = useState(true);
 
@@ -49,12 +47,12 @@ const Editor = () => {
     }, [])
 
     return (
-        <EditorContext.Provider value={{ blog, setBlog, editorState, setEditorState, textEditor, setTextEditor }}>
+        <EditorContext.Provider value={{ blog, setBlog, textEditor, setTextEditor }}>
             { 
                 access_token === null ? <Navigate to="/signin" /> 
                 : 
                 loading ? <Loader /> :
-                editorState == "editor" ? <BlogEditor /> : <PublishForm /> 
+                <BlogEditor /> 
             }
         </EditorContext.Provider>
     )

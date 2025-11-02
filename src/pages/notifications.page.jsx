@@ -15,7 +15,7 @@ const Notifications = () => {
     const [ filter, setFilter ] = useState('all');
     const [ notifications, setNotifications ] = useState(null);
 
-    let filters = ['all', 'like', 'comment', 'reply'];
+    let filters = ['전체', '좋아요', '댓글', '답글'];
 
     const fetchNotifications = ({ page, deletedDocCount = 0 }) => {
 
@@ -58,8 +58,14 @@ const Notifications = () => {
     const handleFilter = (e) => {
 
         let btn = e.target;
+        const filterMap = {
+            '전체': 'all',
+            '좋아요': 'like',
+            '댓글': 'comment',
+            '답글': 'reply'
+        };
 
-        setFilter(btn.innerHTML);
+        setFilter(filterMap[btn.innerHTML] || btn.innerHTML);
 
         setNotifications(null);
 
@@ -68,12 +74,19 @@ const Notifications = () => {
     return (
         <div>
 
-            <h1 className="max-md:hidden">Recent Notifications</h1>
+            <h1 className="max-md:hidden">최근 알림</h1>
 
             <div className="my-8 flex gap-6">
                 {
                     filters.map((filterName, i) => {
-                        return <button key={i} className={"py-2 " + ( filter == filterName ? "btn-dark" : "btn-light" )}
+                        const filterMap = {
+                            '전체': 'all',
+                            '좋아요': 'like',
+                            '댓글': 'comment',
+                            '답글': 'reply'
+                        };
+                        const filterValue = filterMap[filterName] || filterName;
+                        return <button key={i} className={"py-2 " + ( filter == filterValue ? "btn-dark" : "btn-light" )}
                          onClick={handleFilter}>{filterName}</button>
                     })
                 }
@@ -90,7 +103,7 @@ const Notifications = () => {
                                     <NotificationCard data={notification} index={i} notificationState={{ notifications, setNotifications }} />
                                 </AnimationWrapper>
                             })
-                        : <NoDataMessage message="Nothing available" />
+                        : <NoDataMessage message="알림이 없습니다" />
                    }
 
                    <LoadMoreDataBtn state={notifications} fetchDataFun={fetchNotifications} additionalParam={{ deletedDocCount: notifications.deletedDocCount }} />

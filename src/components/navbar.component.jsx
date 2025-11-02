@@ -13,6 +13,7 @@ const Navbar = () => {
 
     const [ searchBoxVisibility, setSearchBoxVisibility ] = useState(false)
     const [ userNavPanel, setUserNavPanel ] = useState(false);
+    const [ mobileMenuOpen, setMobileMenuOpen ] = useState(false);
     const [ pageState, setPageState ] = useState("home");
     const location = useLocation();
 
@@ -30,8 +31,10 @@ const Navbar = () => {
         // 경로에 따라 페이지 상태 설정
         if (path === '/') {
             setPageState('home');
-        } else if (path.includes('/article')) {
+        } else if (path.includes('/content') || path.includes('/article')) {
             setPageState('content');
+        } else {
+            setPageState('home');
         }
     }, [location]); // location이 변경될 때마다 실행
 
@@ -55,28 +58,24 @@ const Navbar = () => {
 
     // 카테고리 변경 함수
     const loadBlogByCategory = (e) => {
-        let categoryText = e.target.innerText;
+        let categoryText = e.target.innerText.trim();
         let category = categoryText.toLowerCase();
 
         // 각 카테고리별 이동 처리
-        if(category === "content") {
-            navigate('/content');  // 콘텐츠 페이지로 이동
-            setPageState(categoryText.toLowerCase());
+        if(category === "content" || categoryText === "Content") {
+            setPageState("content");
+            navigate('/content');
             return;
         }
 
         // 홈 카테고리인 경우
-        if(category === "home") {
+        if(category === "home" || categoryText === "Home") {
             setPageState("home");
             navigate('/');
-        } else {
-            setPageState(category);
+            return;
         }
 
-        // 홈 페이지가 아닌 경우 홈 페이지로 이동
-        if(location.pathname !== '/') {
-            navigate('/');
-        }
+        setPageState(category);
     }
 
     const handleUserNavPanel = () => {
@@ -116,89 +115,38 @@ const Navbar = () => {
 
     return (
         <>
-            {/* 탭바가 내비게이션 바를 포함하는 구조로 변경 */}
-            <div className="bg-black text-white">
-                {/* 내비게이션 바 */}
-                <nav className="navbar z-50 relative p-3">
-                    <div className="w-full flex items-center justify-between relative">
-                        {/* 모바일에서는 B 로고 이미지, 데스크톱에서는 텍스트 로고 */}
-                        <Link to="/" className="flex-none w-12 h-12 md:hidden">
-                            <img src={bLogo} className="w-full" alt="B Logo" />
-                        </Link>
-                        
-                        <Link to="/" className="text-4xl font-bold text-white font-['Noto_Sans_KR'] absolute left-1/2 transform -translate-x-1/2 hidden md:block">
-                            Vessel
-                        </Link>
-
-                        <div className={"absolute bg-black w-full left-0 top-full mt-0.5 border-b border-gray-800 py-4 px-[5vw] md:border-0 md:relative md:inset-0 md:p-0 md:w-auto hidden"}>
-                            <input 
-                                type="text"
-                                placeholder="Search"
-                                className="w-full md:w-auto bg-gray-800 p-4 pl-6 pr-[12%] md:pr-6 rounded-full placeholder:text-gray-400 md:pl-12 text-white"
-                                onKeyDown={handleSearch}
-                            />
-
-                            <i className="fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl text-gray-400"></i>
-                        </div>
-
-                        <div className="flex items-center gap-3 md:gap-6 ml-auto">
-                            <button className="md:hidden bg-gray-800 w-12 h-12 rounded-full flex items-center justify-center hidden"
-                            onClick={() => setSearchBoxVisibility(currentVal => !currentVal)}
+            {/* 헤더 통합 (heypop.kr 스타일) */}
+            <nav className="navbar z-50 relative border-b border-black/10">
+                <div className="w-full max-w-[1400px] mx-auto px-[5vw] md:px-[7vw] lg:px-[10vw]">
+                    <div className="grid grid-cols-3 items-center h-16 gap-6">
+                        {/* 좌측: 로고 */}
+                        <div className="flex items-center">
+                            <button 
+                                className="md:hidden w-10 h-10 flex items-center justify-center text-black mr-2"
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             >
-                                <i className="fi fi-rr-search text-xl text-white"></i>
+                                <i className={mobileMenuOpen ? "fi fi-rr-cross text-xl" : "fi fi-rr-bars text-xl"}></i>
                             </button>
-
-                            <Link to="/editor" className="hidden md:flex gap-2 text-white hover:text-gray-300">
-                                <i className="fi fi-rr-file-edit"></i>
-                                <p>Write</p>
-                            </Link>
-
-                            {
-                                access_token ? 
-                                <>
-                                    <Link to="/dashboard/notifications">
-                                        <button className="w-12 h-12 rounded-full bg-gray-800 relative hover:bg-gray-700">
-                                            <i className="fi fi-rr-bell text-2xl block mt-1 text-white"></i>
-                                            {
-                                                new_notification_available ? 
-                                                <span className="bg-red w-3 h-3 rounded-full absolute z-10 top-2 right-2"></span> : ""
-                                            }
-                                            
-                                        </button>
-                                    </Link>
-
-                                    <div className="relative" onClick={handleUserNavPanel} onBlur={handleBlur}>
-                                        <button className="w-12 h-12 mt-1">
-                                            <img src={profile_img} className="w-full h-full object-cover rounded-full" />
-                                        </button>
-
-                                        {
-                                            userNavPanel ? <UserNavigationPanel /> : ""
-                                        }
-
+                            <Link to="/" className="flex-none" onClick={() => setMobileMenuOpen(false)}>
+                                <div className="flex items-center gap-3">
+                                    <img src={bLogo} className="w-8 h-8 md:hidden" alt="B Logo" />
+                                    <div className="flex items-baseline gap-2 hidden md:flex">
+                                        <span className="text-2xl md:text-3xl font-bold text-black">
+                                            Vessel
+                                        </span>
+                                        <span className="text-xs text-dark-grey font-normal">
+                                            Studio_bada
+                                        </span>
                                     </div>
-                                </>
-                                :
-                                <>
-                                    <Link className="bg-white text-black rounded-full py-2 px-6 font-medium hover:bg-gray-200" to="/signin">
-                                    Sign In
-                                    </Link>
-                                    <Link className="border border-white text-white rounded-full py-2 px-6 font-medium hover:bg-white/10 hidden md:block" to="/signup">
-                                        Sign Up
-                                    </Link>
-                                </>
-                            }
+                                </div>
+                            </Link>
                         </div>
-                    </div>
-                </nav>
 
-                {/* 탭바 */}
-                <div className="" style={{backgroundColor: '#000000'}}>
-                    <div className="max-w-3xl w-full mx-auto px-4">
-                        <div className="flex justify-center gap-6 overflow-x-auto">
+                        {/* 중앙: Home, Content */}
+                        <div className="hidden md:flex items-center justify-center gap-6">
                             <button 
                                 onClick={loadBlogByCategory} 
-                                className={"py-2 text-sm font-medium border-b-2 " + (pageState === "home" ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white")}
+                                className={"text-sm font-medium py-2 px-1 border-b-2 transition-colors " + (pageState === "home" ? "border-black text-black" : "border-transparent text-dark-grey hover:text-black")}
                             >
                                 Home
                             </button>
@@ -206,15 +154,127 @@ const Navbar = () => {
                                 <button 
                                     key={i} 
                                     onClick={loadBlogByCategory} 
-                                    className={"py-2 text-sm whitespace-nowrap font-medium border-b-2 " + (pageState === category.toLowerCase() ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white")}
+                                    className={"text-sm font-medium py-2 px-1 whitespace-nowrap border-b-2 transition-colors " + (pageState === category.toLowerCase() ? "border-black text-black" : "border-transparent text-dark-grey hover:text-black")}
                                 >
                                     {category}
                                 </button>
                             ))}
                         </div>
+
+                        {/* 모바일 메뉴 */}
+                        {mobileMenuOpen && (
+                            <div className="md:hidden fixed top-16 left-0 right-0 bg-white border-b border-black/10 shadow-lg z-[60] max-h-[calc(100vh-64px)] overflow-y-auto">
+                                <div className="flex flex-col px-[5vw] py-4 gap-0">
+                                    <Link 
+                                        to="/" 
+                                        className="text-sm font-medium py-3 border-b border-black/10 hover:bg-grey/30 transition-colors"
+                                        onClick={() => { setMobileMenuOpen(false); setPageState('home'); }}
+                                    >
+                                        Home
+                                    </Link>
+                                    {categories.map((category, i) => (
+                                        <Link 
+                                            key={i} 
+                                            to={category.toLowerCase() === 'content' ? '/content' : '/'}
+                                            className="text-sm font-medium py-3 border-b border-black/10 hover:bg-grey/30 transition-colors"
+                                            onClick={() => { 
+                                                setMobileMenuOpen(false); 
+                                                loadBlogByCategory({ target: { innerText: category } }); 
+                                            }}
+                                        >
+                                            {category}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* 우측: 검색, 알림, 프로필 */}
+                        <div className="flex items-center justify-end gap-3 md:gap-4">
+                            {/* 검색 (데스크톱) */}
+                            <div className="hidden md:block relative">
+                                <div className="relative">
+                                    <input 
+                                        type="text"
+                                        placeholder="검색"
+                                        className="bg-grey w-48 px-4 py-2 pl-10 pr-4 rounded-full text-sm placeholder:text-dark-grey text-black border border-black/10 focus:bg-white focus:border-black focus:outline-none transition-all"
+                                        onKeyDown={handleSearch}
+                                    />
+                                    <i className="fi fi-rr-search absolute left-3 top-1/2 -translate-y-1/2 text-dark-grey"></i>
+                                </div>
+                            </div>
+
+                            {/* 검색 버튼 (모바일) */}
+                            <button 
+                                className="md:hidden w-10 h-10 flex items-center justify-center text-black"
+                                onClick={() => {
+                                    setSearchBoxVisibility(currentVal => !currentVal);
+                                    setMobileMenuOpen(false);
+                                }}
+                            >
+                                <i className="fi fi-rr-search text-xl"></i>
+                            </button>
+
+                            {/* 모바일 검색창 */}
+                            {searchBoxVisibility && (
+                                <div className="md:hidden fixed top-16 left-0 right-0 bg-white border-b border-black/10 shadow-lg p-4 z-[60]">
+                                    <div className="relative">
+                                        <input 
+                                            type="text"
+                                            placeholder="검색"
+                                            className="w-full bg-grey px-4 py-2 pl-10 pr-10 rounded-full text-sm placeholder:text-dark-grey text-black border border-black/10 focus:bg-white focus:border-black focus:outline-none"
+                                            onKeyDown={handleSearch}
+                                            autoFocus
+                                        />
+                                        <i className="fi fi-rr-search absolute left-3 top-1/2 -translate-y-1/2 text-dark-grey"></i>
+                                        <button 
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-grey hover:text-black"
+                                            onClick={() => setSearchBoxVisibility(false)}
+                                        >
+                                            <i className="fi fi-rr-cross text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* 로그인 상태별 메뉴 */}
+                            {
+                                access_token ? 
+                                <>
+                                    <Link to="/dashboard/notifications" className="relative">
+                                        <button className="w-10 h-10 rounded-full bg-grey flex items-center justify-center hover:bg-black/10 border border-black/10 transition-colors">
+                                            <i className="fi fi-rr-bell text-lg text-black"></i>
+                                            {
+                                                new_notification_available ? 
+                                                <span className="bg-red w-2.5 h-2.5 rounded-full absolute top-1 right-1 border-2 border-white"></span> : ""
+                                            }
+                                        </button>
+                                    </Link>
+
+                                    <div className="relative" onClick={handleUserNavPanel} onBlur={handleBlur}>
+                                        <button className="w-10 h-10">
+                                            <img src={profile_img} className="w-full h-full object-cover rounded-full" alt="Profile" />
+                                        </button>
+                                        {userNavPanel ? <UserNavigationPanel /> : ""}
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <Link className="bg-black text-white rounded-full py-2 px-5 text-sm font-medium hover:opacity-80 transition-opacity hidden md:block" to="/signin">
+                                        로그인
+                                    </Link>
+                                    <Link className="border border-black text-black rounded-full py-2 px-5 text-sm font-medium hover:bg-grey transition-colors hidden md:block" to="/signup">
+                                        가입하기
+                                    </Link>
+                                    <Link className="bg-black text-white rounded-full py-2 px-5 text-sm font-medium hover:opacity-80 transition-opacity md:hidden" to="/signin">
+                                        로그인
+                                    </Link>
+                                </>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+            </nav>
 
             <Outlet />
         </>

@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AnimationWrapper from "../common/page-animation";
 import Loader from "../components/loader.component";
-import { getDay } from "../common/date";
+import { getDay, getFormattedDate } from "../common/date";
 import BlogInteraction from "../components/blog-interaction.component";
 import BlogPostCard from "../components/blog-post.component";
 import BlogContent from "../components/blog-content.component";
@@ -32,7 +32,17 @@ const BlogPage = () => {
     const [ commentsWrapper, setCommentsWrapper ] = useState(false);
     const [ totalParentCommentsLoaded, setTotalParentCommentsLoaded ] = useState(0);
 
-    let { title, des, content, banner, author: { personal_info: { fullname, username: author_username , profile_img } }, publishedAt } = blog;
+    let { 
+        title = '', 
+        des = '', 
+        content = [], 
+        banner = '', 
+        tags = [], 
+        author = { personal_info: {} }, 
+        publishedAt = '' 
+    } = blog;
+    
+    let { personal_info: { fullname = '', username: author_username = '', profile_img = '' } = {} } = author || {};
 
     const fetchBlog = () => {
         axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/get-blog", { blog_id })
@@ -41,11 +51,15 @@ const BlogPage = () => {
             blog.comments = await fetchComments({ blog_id: blog._id, setParentCommentCountFun: setTotalParentCommentsLoaded })
             setBlog(blog)
 
-            axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", { tag: blog.tags[0], limit: 6, eliminate_blog: blog_id })
-            .then(({ data }) => {
-
-                setSimilrBlogs(data.blogs);
-            })
+            if (blog.tags && blog.tags.length > 0) {
+                axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", { tag: blog.tags[0], limit: 6, eliminate_blog: blog_id })
+                .then(({ data }) => {
+                    setSimilrBlogs(data.blogs);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            }
 
             setLoading(false);
         })
@@ -126,63 +140,94 @@ const BlogPage = () => {
                     <BlogContext.Provider value={{ blog, setBlog, islikedByUser, setLikedByUser, commentsWrapper, setCommentsWrapper, totalParentCommentsLoaded, setTotalParentCommentsLoaded }}>
                         <CommentsContainer />
                         <div className="max-w-[900px] center py-10 max-lg:px-[5vw]">
-                            {/* 배너 이미지 - 모바일에서 좌우 여백 없이 전체 너비 사용 */}
-                            <div className="max-lg:-mx-[5vw] max-lg:w-screen">
-                                <img 
-                                    src={getFullImageUrl(banner)} 
-                                    className="aspect-video w-full object-cover max-lg:rounded-none rounded-[20px]"
-                                    alt={title || 'Blog banner'}
-                                    onError={(e) => {
-                                        console.error('Image load error:', e);
-                                        e.target.src = `${window.location.origin}/images/defaultbanner.jpeg`;
-                                    }}
-                                />
-                            </div>
-                            
-                            <div className="mt-12">
-                                <h2>{title}</h2>
-
-                                <div className="flex max-sm:flex-col justify-between my-8">
-                                    <div className="flex gap-5 items-start">
-                                        <img src={profile_img} className="w-12 h-12 rounded-full" />
-
-                                        <p className="capitalize">
-                                            {fullname}
-                                            <br />
-                                            @
-                                            <Link to={`/user/${author_username}`} className="underline">{author_username}</Link>
-                                        </p>
-                                        
-                                    </div>
-                                    <p className="text-dark-grey opacity-75 max-sm:mt-6 max-sm:ml-12 max-sm:pl-5">Published on {getDay(publishedAt)}</p>
+                            {/* 배너 이미지 - 배너가 있을 때만 표시 */}
+                            {banner && banner.trim() && (
+                                <div className="max-lg:-mx-[5vw] max-lg:w-screen">
+                                    <img 
+                                        src={getFullImageUrl(banner)} 
+                                        className="aspect-video w-full object-cover max-lg:rounded-none rounded-[20px]"
+                                        alt={title || 'Blog banner'}
+                                        onError={(e) => {
+                                            console.error('Image load error:', e);
+                                            e.target.src = `${window.location.origin}/images/defaultbanner.jpeg`;
+                                        }}
+                                    />
                                 </div>
+                            )}
+                            
+                            <div className={banner && banner.trim() ? "mt-12" : ""}>
+                                {/* 날짜 및 태그 */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className="flex flex-wrap gap-2">
+                                        {tags && tags.length > 0 && tags.map((tag, i) => (
+                                            <span key={i} className="inline-flex items-center justify-center px-3 py-1 rounded-full text-sm bg-[#00DD89] text-black font-normal">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    {publishedAt && (
+                                        <p className="text-sm text-dark-grey">
+                                            {getFormattedDate(publishedAt)}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* 제목 */}
+                                <h1 className="text-5xl font-bold leading-tight mb-8">{title || '논타이틀'}</h1>
+
+                                {/* 작성자 정보 (간소화) */}
+                                {fullname && (
+                                    <div className="flex items-center gap-3 mb-12 pb-8 border-b border-black/10">
+                                        {profile_img && (
+                                            <img src={profile_img} className="w-10 h-10 rounded-full" alt={fullname} />
+                                        )}
+                                        <div>
+                                            <p className="font-medium text-black">{fullname}</p>
+                                            {author_username && (
+                                                <Link to={`/user/${author_username}`} className="text-sm text-dark-grey hover:text-purple">
+                                                    @{author_username}
+                                                </Link>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
+                            {/* 본문 영역 (더 좁은 폭) */}
                             {content && content[0] && content[0].blocks && (
-                                <div className="my-12 font-gelasio blog-page-content">
+                                <div className="max-w-[700px] mx-auto my-16 font-gelasio blog-page-content">
                                     {content[0].blocks.map((block, i) => (
-                                        <div key={i} className="my-4 md:my-8">
+                                        <div key={i} className="my-6 md:my-8">
                                             <BlogContent block={block} />
                                         </div>
                                     ))}
                                 </div>
                             )}
                             
-                            <BlogInteraction />
+                            {/* 인터랙션 바 (중앙 정렬) */}
+                            <div className="max-w-[700px] mx-auto">
+                                <BlogInteraction />
+                            </div>
                             
-                            {
-                                similarBlogs != null && similarBlogs.length ?
-                                <>
-                                    <h1 className="text-2xl mt-12 mb-8 font-medium">Similar Blogs</h1>
-                                    <div className="flex gap-5 flex-wrap">
-                                        {
-                                            similarBlogs.map((blog, i) => {
-                                                return <BlogPostCard content={blog} author={blog.author.personal_info} key={i} />
-                                            })
-                                        }
+                            {/* 관련 블로그 섹션 */}
+                            {similarBlogs != null && similarBlogs.length > 0 && (
+                                <section className="mt-16 md:mt-20 lg:mt-24">
+                                    <div className="max-w-[900px] mx-auto">
+                                        <h2 className="text-4xl font-bold mb-8">Related Articles</h2>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                            {similarBlogs.map((blog, i) => {
+                                                return (
+                                                    <BlogPostCard 
+                                                        content={blog} 
+                                                        author={blog.author?.personal_info || {}} 
+                                                        key={blog.blog_id || i} 
+                                                    />
+                                                );
+                                            })}
+                                        </div>
                                     </div>
-                                </> : ""
-                            }
+                                </section>
+                            )}
 
                         </div>
                     </BlogContext.Provider>

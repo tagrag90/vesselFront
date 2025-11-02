@@ -44,28 +44,46 @@ const BlogSlideCard = ({ featuredBlogs = [] }) => {
                 {featuredBlogs.map((blog, index) => (
                     <SwiperSlide key={index}>
                         <Link to={`/blog/${blog.blog_id}`} className="block rounded-lg overflow-hidden">
-                            <div className="relative w-full aspect-video">
-                                {/* 배너 이미지 */}
-                                <img 
-                                    src={blog.banner || defaultBanner} 
-                                    className="w-full h-full object-cover" 
-                                    alt={blog.title}
-                                />
-                                
-                                {/* 그라데이션 오버레이 */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
-                                
-                                {/* 텍스트 콘텐츠 */}
-                                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                    {/* 태그 */}
-                                    <span className="inline-block px-3 py-1 rounded-full text-sm bg-white text-black border border-black mb-3">
-                                        {blog.tags && blog.tags[0]}
-                                    </span>
+                            {blog.banner && blog.banner.trim() ? (
+                                <div className="relative w-full aspect-video">
+                                    {/* 배너 이미지 */}
+                                    <img 
+                                        src={blog.banner} 
+                                        className="w-full h-full object-cover" 
+                                        alt={blog.title || '논타이틀'}
+                                    />
                                     
-                                    {/* 제목 */}
-                                    <h1 className="blog-title text-white mb-3">{blog.title}</h1>
+                                    {/* 그라데이션 오버레이 */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
+                                    
+                                    {/* 텍스트 콘텐츠 */}
+                                    <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                        {/* 태그 */}
+                                        {blog.tags && blog.tags[0] && (
+                                            <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-sm bg-[#00DD89] text-black font-normal mb-3">
+                                                {blog.tags[0]}
+                                            </span>
+                                        )}
+                                        
+                                        {/* 제목 */}
+                                        <h1 className="blog-title text-white mb-3">{blog.title || '논타이틀'}</h1>
+                                    </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="relative w-full bg-gray-100 p-5">
+                                    <div className="flex flex-col">
+                                        {/* 태그 */}
+                                        {blog.tags && blog.tags[0] && (
+                                            <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-sm bg-[#00DD89] text-black font-normal mb-3 w-fit">
+                                                {blog.tags[0]}
+                                            </span>
+                                        )}
+                                        
+                                        {/* 제목 */}
+                                        <h1 className="blog-title text-black mb-3">{blog.title || '논타이틀'}</h1>
+                                    </div>
+                                </div>
+                            )}
                         </Link>
                     </SwiperSlide>
                 ))}

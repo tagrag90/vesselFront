@@ -59,7 +59,7 @@ const EditProfile = () => {
 
         if(updatedProfileImg){
 
-            let loadingToast = toast.loading("Uploading....");
+            let loadingToast = toast.loading("업로드 중...");
             e.target.setAttribute("disabled", true);
 
             uploadImage(updatedProfileImg)
@@ -82,7 +82,7 @@ const EditProfile = () => {
 
                         toast.dismiss(loadingToast);
                         e.target.removeAttribute("disabled");
-                        toast.success("Uploaded 👍");
+                        toast.success("업로드 완료 👍");
 
                     })
                     .catch(({response }) => {
@@ -114,13 +114,13 @@ const EditProfile = () => {
         let { username, bio, youtube, facebook, twitter, github, instagram, website } = formData;
 
         if(username.length < 3){
-            return toast.error("Username should be al least 3 letters long")
+            return toast.error("사용자명은 최소 3자 이상이어야 합니다")
         }
         if(bio.length > bioLimit){
-            return toast.error(`Bio should not be more than ${bioLimit}`)
+            return toast.error(`소개는 ${bioLimit}자를 넘을 수 없습니다`)
         }
 
-        let loadingToast = toast.loading("Updating.....");
+        let loadingToast = toast.loading("업데이트 중...");
         e.target.setAttribute("disabled", true);
 
         axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/update-profile", {
@@ -144,7 +144,7 @@ const EditProfile = () => {
 
             toast.dismiss(loadingToast);
             e.target.removeAttribute("disabled");
-            toast.success("Profile Updated")
+            toast.success("프로필이 업데이트되었습니다")
 
         })
         .catch(({ response }) => {
@@ -162,7 +162,7 @@ const EditProfile = () => {
                 <form ref={editProfileForm}>
                     <Toaster />
 
-                    <h1 className="max-md:hidden">Edit Profile</h1>
+                    <h1 className="max-md:hidden">프로필 수정</h1>
 
                     <div className="flex flex-col lg:flex-row items-start py-10 gap-8 lg:gap-10">
                         
@@ -170,36 +170,36 @@ const EditProfile = () => {
                             <label htmlFor="uploadImg" id="profileImgLable"
                             className="relative block w-48 h-48 bg-grey rounded-full overflow-hidden">
                                 <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center text-white bg-black/30 opacity-0 hover:opacity-100 cursor-pointer">
-                                    Upload Image
+                                    이미지 업로드
                                 </div>
                                 <img ref={profileImgEle} src={profile_img} />
                             </label>
 
                             <input type="file" id="uploadImg" accept=".jpeg, .png, .jpg" hidden onChange={handleImagePreview} />
 
-                            <button className="btn-light mt-5 max-lg:center lg:w-full px-10" onClick={handleImageUpload}>Upload</button>
+                            <button className="btn-light mt-5 max-lg:center lg:w-full px-10" onClick={handleImageUpload}>업로드</button>
                         </div>
 
                         <div className="w-full">
 
                             <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5">
                                 <div>
-                                    <InputBox name="fullname" type="text" value={fullname} placeholder="Full Name" disable={true} icon="fi-rr-user" />
+                                    <InputBox name="fullname" type="text" value={fullname} placeholder="이름" disable={true} icon="fi-rr-user" />
                                 </div>
                                 <div>
-                                    <InputBox name="email" type="email" value={email} placeholder="Email" disable={true} icon="fi-rr-envelope" />
+                                    <InputBox name="email" type="email" value={email} placeholder="이메일" disable={true} icon="fi-rr-envelope" />
                                 </div>
                             </div>
 
-                            <InputBox type="text" name="username" value={profile_username} placeholder="Username" icon="fi-rr-at" />
+                            <InputBox type="text" name="username" value={profile_username} placeholder="사용자명" icon="fi-rr-at" />
 
-                            <p className="text-dark-grey -mt-3">Username will use to search user and will be visible to all users</p>
+                            <p className="text-dark-grey -mt-3">사용자명은 사용자 검색에 사용되며 모든 사용자에게 표시됩니다</p>
 
-                            <textarea name="bio" maxLength={bioLimit} defaultValue={bio} className="input-box h-64 lg:h-40 resize-none leading-7 mt-5 pl-5" placeholder="Bio" onChange={handleCharacterChange}></textarea>
+                            <textarea name="bio" maxLength={bioLimit} defaultValue={bio} className="input-box h-64 lg:h-40 resize-none leading-7 mt-5 pl-5" placeholder="소개" onChange={handleCharacterChange}></textarea>
 
-                            <p className="mt-1 text-dark-grey">{ charactersLeft } characters left</p>
+                            <p className="mt-1 text-dark-grey">{ charactersLeft }자 남음</p>
 
-                            <p className="my-6 text-dark-grey">Add your social handles below</p>
+                            <p className="my-6 text-dark-grey">아래에 소셜 미디어 링크를 추가하세요</p>
 
                             <div className="md:grid md:grid-cols-2 gap-x-6">
 
@@ -217,7 +217,7 @@ const EditProfile = () => {
 
                             </div>
 
-                            <button className="btn-dark w-auto px-10" type="submit" onClick={handleSubmit}>Update</button>
+                            <button className="btn-dark w-auto px-10" type="submit" onClick={handleSubmit}>업데이트</button>
 
                         </div>
 

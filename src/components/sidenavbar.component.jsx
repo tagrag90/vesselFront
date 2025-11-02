@@ -52,14 +52,14 @@ const SideNav = () => {
                         <hr ref={activeTabLine} className="absolute bottom-0 duration-500" />
                     </div>
 
-                    <div className={"min-w-[200px] h-[calc(100vh-80px-60px)] md:h-cover md:sticky top-24 overflow-y-auto p-6 md:pr-0 md:border-grey md:border-r absolute max-md:top-[64px] bg-black max-md:w-[calc(100%+80px)] max-md:px-16 max-md:-ml-7 duration-500 " + (!showSideNav ? "max-md:opacity-0 max-md:pointer-events-none" : "opacity-100 pointer-events-auto")} style={{backgroundColor: '#000000'}}>
+                    <div className={"min-w-[200px] h-[calc(100vh-80px-60px)] md:h-cover md:sticky top-24 overflow-y-auto p-6 md:pr-0 md:border-grey md:border-r absolute max-md:top-[64px] bg-white max-md:w-[calc(100%+80px)] max-md:px-16 max-md:-ml-7 duration-500 " + (!showSideNav ? "max-md:opacity-0 max-md:pointer-events-none" : "opacity-100 pointer-events-auto")}>
 
-                        <h1 className="text-xl text-dark-grey mb-3">Dashboard</h1>
+                        <h1 className="text-xl text-dark-grey mb-3">대시보드</h1>
                         <hr className="border-grey -ml-6 mb-8 mr-6" />
 
                         <NavLink to="/dashboard/blogs" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
                             <i className="fi fi-rr-document"></i>
-                            Blogs
+                            게시글
                         </NavLink>
 
                         <NavLink to="/dashboard/notifications" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
@@ -70,25 +70,25 @@ const SideNav = () => {
                                     <span className="bg-red w-2 h-2 rounded-full absolute z-10 top-0 right-0"></span> : ""
                                 }
                             </div>
-                            Notifications
+                            알림
                         </NavLink>
 
                         <NavLink to="/editor" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
                             <i className="fi fi-rr-file-edit"></i>
-                            Write
+                            글쓰기
                         </NavLink>
 
-                        <h1 className="text-xl text-dark-grey mt-20 mb-3">Settings</h1>
+                        <h1 className="text-xl text-dark-grey mt-20 mb-3">설정</h1>
                         <hr className="border-grey -ml-6 mb-8 mr-6" />
 
                         <NavLink to="/settings/edit-profile" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
                             <i className="fi fi-rr-user"></i>
-                            Edit Profile
+                            프로필 수정
                         </NavLink>
 
                         <NavLink to="/settings/change-password" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
                             <i className="fi fi-rr-lock"></i>
-                            Change Password
+                            비밀번호 변경
                         </NavLink>
 
                     </div>

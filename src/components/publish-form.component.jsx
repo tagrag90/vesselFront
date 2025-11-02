@@ -15,7 +15,8 @@ const PublishForm = () => {
 
     let { blog_id } = useParams();
 
-    let { blog, blog: { banner, title, tags, des, content }, setEditorState, setBlog } = useContext(EditorContext);
+    let { blog = {}, setEditorState, setBlog } = useContext(EditorContext);
+    let { banner = '', title = '', tags = [], des = '', content = [] } = blog;
 
     let { userAuth: { access_token } } = useContext(UserContext);
 

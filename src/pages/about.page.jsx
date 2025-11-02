@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import AnimationWrapper from "../common/page-animation";
 import { Helmet } from 'react-helmet-async';
-import MarqueeBanner from "../components/marquee-banner.component";
 import bLogo from "../imgs/b-logo.png";
 
 const AboutPage = () => {
@@ -17,15 +16,6 @@ const AboutPage = () => {
                 <meta name="description" content="Studio_bada의 미션과 프로젝트를 소개합니다." />
                 <link href="https://fonts.googleapis.com/css2?family=Vibur&display=swap" rel="stylesheet" />
             </Helmet>
-
-            {/* 마퀴 배너 */}
-            <MarqueeBanner 
-                text="Let's Divtobada 🌊" 
-                altText="We create Community and solution for K-culture 👊" 
-                bgColor="#000000" 
-                textColor="#ffffff" 
-                imageSrc={bLogo} 
-            />
 
             {/* 상단 섹션: 소개와 프로덕트 */}
             <section className="py-20 bg-black text-white">

@@ -5,7 +5,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
     
     return (
-        <footer className="font-['Noto_Sans_KR']" style={{ backgroundColor: '#000000' }}>
+        <footer className="font-['Noto_Sans_KR'] bg-black">
             <div className="text-white pt-32 pb-24">
                 {/* 링크 섹션 */}
                 <div className="container mx-auto px-4 max-w-7xl">
@@ -48,7 +48,7 @@ const Footer = () => {
                     
                     {/* 로고 텍스트 */}
                     <div className="flex justify-center mb-32">
-                        <h1 className="text-white font-bold" style={{ fontSize: "12rem", letterSpacing: "-0.02em" }}>
+                        <h1 className="text-white font-bold text-[12rem] tracking-[-0.02em]">
                             Studio_bada
                         </h1>
                     </div>

@@ -9,6 +9,7 @@ const AnimationWrapper = ({ children, keyValue, initial = { opacity: 0 }, animat
                 animate={animate}
                 transition={transition}
                 className={className}
+                style={{ margin: 0, display: 'contents' }}
             >
                 { children }
             </motion.div>

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar.component";
 import UserAuthForm from "./pages/userAuthForm.page";
 import { createContext, useEffect, useState } from "react";
@@ -30,6 +30,7 @@ const darkThemePreference = () => window.matchMedia("(prefers-color-scheme: dark
 const App = () => {
 
     const [userAuth, setUserAuth] = useState({});
+    const location = useLocation();
 
     const [ theme, setTheme ] = useState(() => darkThemePreference() ? "dark" : "light" );
 
@@ -54,6 +55,7 @@ const App = () => {
 
     }, [])
 
+    const isEditorPage = location.pathname.startsWith('/editor');
 
     return (
         <HelmetProvider>
@@ -82,9 +84,9 @@ const App = () => {
                             <Route path="*" element={<PageNotFound />} /> 
                         </Route>
                     </Routes>
-                    <FixedButton />
+                    {!isEditorPage && <FixedButton />}
                     <Analytics />
-                    <Footer />
+                    {!isEditorPage && <Footer />}
                 </UserContext.Provider>
             </ThemeContext.Provider>
         </HelmetProvider>

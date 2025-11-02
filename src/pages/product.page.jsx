@@ -7,7 +7,6 @@ import logoDark from "../imgs/logo-dark.png";
 import logoLight from "../imgs/logo-light.png";
 import badaLogoButton from "../imgs/bada-logo-button.png";
 import defaultBanner from "../imgs/defaultbanner.jpeg";
-import MarqueeBanner from "../components/marquee-banner.component";
 
 const ProductPage = () => {
     // 페이지 로드 시 스크롤 상단으로 이동
@@ -64,15 +63,6 @@ const ProductPage = () => {
                 <title>제품 소개 | Vessel</title>
                 <meta name="description" content="Vessel의 다양한 제품과 서비스를 소개합니다." />
             </Helmet>
-
-            {/* 마퀴 배너 */}
-            <MarqueeBanner 
-                text="Let's Divtobada 🌊" 
-                altText="We create Community and solution for K-culture 👊" 
-                bgColor="#000000" 
-                textColor="#ffffff" 
-                imageSrc={bLogo} 
-            />
 
             {/* 히어로 섹션 */}
             <div className="bg-black text-white">

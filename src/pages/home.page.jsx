@@ -1,23 +1,16 @@
 import axios from "axios";
 import AnimationWrapper from "../common/page-animation";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../components/loader.component";
-import BlogPostCard from "../components/blog-post.component";
-import MinimalBlogPost from "../components/nobanner-blog-post.component";
 import NoDataMessage from "../components/nodata.component";
 import { filterPaginationData } from "../common/filter-pagination-data";
-import LoadMoreDataBtn from "../components/load-more.component";
-import { UserContext } from "../App";
-import { useLocation } from "react-router-dom";
-import MarqueeBanner from "../components/marquee-banner.component";
+import { useLocation, Link } from "react-router-dom";
 import HeroBanner from "../components/hero-banner.component";
-import bLogo from "../imgs/b-logo.png";
-import logoDark from "../imgs/logo-dark.png";
+import MagazineBlogCard from "../components/magazine-blog-card.component";
 
 const HomePage = () => {
     let [blogs, setBlog] = useState(null);
     let [trendingBlogs, setTrendingBlog] = useState(null);
-    let [featuredBlogs, setFeaturedBlogs] = useState([]);
     const location = useLocation();
     
     // URL에서 카테고리 정보 가져오기
@@ -33,19 +26,16 @@ const HomePage = () => {
         axios
             .post(import.meta.env.VITE_SERVER_DOMAIN + "/latest-blogs", { page })
             .then( async ({ data }) => {
-
                 let formatedData = await filterPaginationData({
                     state: blogs,
                     data: data.blogs,
                     page,
                     countRoute: "/all-latest-blogs-count"
                 })
-
                 setBlog(formatedData);
             })
             .catch((err) => {
                 console.log(err);
-                // toast 에러 제거 - 콘솔만
             });
     };
 
@@ -53,7 +43,6 @@ const HomePage = () => {
         axios
             .post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", { tag: pageState, page })
             .then( async ({ data }) => {
-                
                 let formatedData = await filterPaginationData({
                     state: blogs,
                     data: data.blogs,
@@ -61,12 +50,10 @@ const HomePage = () => {
                     countRoute: "/search-blogs-count",
                     data_to_send: { tag: pageState }
                 })
-
                 setBlog(formatedData);
             })
             .catch((err) => {
                 console.log(err);
-                // toast 에러 제거 - 콘솔만
             });
     }
 
@@ -78,7 +65,6 @@ const HomePage = () => {
             })
             .catch((err) => {
                 console.log(err);
-                // toast 에러 제거 - 콘솔만
             });
     };
 
@@ -96,78 +82,58 @@ const HomePage = () => {
             fetchTrendingBlogs();
         }
         
-        // 메인 슬라이드용 피처드 블로그 가져오기
-        axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", { limit: 5 })
-        .then(({ data }) => {
-            setFeaturedBlogs(data.blogs);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-        
     }, [pageState, location.search]);
 
     return (
         <AnimationWrapper>
-            {/* 마퀴 배너 */}
-            <MarqueeBanner 
-                text="Let's Divtobada 🌊" 
-                altText="We create Community and solution for K-culture 👊" 
-                bgColor="#000000" 
-                textColor="#ffffff" 
-                imageSrc={bLogo} 
-            />
-            
-            {/* 히어로 배너 - 최근 아티클 슬라이딩 */}
-            {featuredBlogs.length > 0 && (
-                <div className="mt-8 md:mt-12 lg:mt-16">
-                    <HeroBanner featuredBlogs={featuredBlogs} />
-                </div>
-            )}
-            
-            <section className="h-cover flex justify-center gap-10">
-                {/* 콘텐츠 영역 */}
-                <div className="max-w-7xl w-full mx-auto">
-                    {/* 섹션 타이틀 */}
-                    <h2 className="text-3xl font-bold mb-2">News & Article</h2>
-                    <p className="text-gray-600 mb-6">대중문화예술과 함께하고 있는 Studio_bada의 스토리를 둘러보세요</p>
-                    
-                    {/* 블로그 포스트 목록 */}
+            <section className="h-cover" style={{ padding: 0 }}>
+                <div className="w-full" style={{ paddingLeft: '5vw', paddingRight: '5vw', paddingTop: '2rem', paddingBottom: '2rem' }}>
+                    {/* 히어로 배너 - 전체 너비 */}
                     {blogs == null ? (
-                        <Loader />
-                    ) : (
-                        blogs.results.length ? 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {blogs.results.map((blog, i) => {
-                                    return (
-                                        <AnimationWrapper
-                                            transition={{
-                                                duration: 1,
-                                                delay: i * 0.1,
-                                            }}
-                                            key={i}
-                                        >
-                                            <BlogPostCard
-                                                content={blog}
-                                                author={
-                                                    blog.author.personal_info
-                                                }
-                                            />
-                                        </AnimationWrapper>
-                                    );
-                                })}
+                        <div className="mb-12">
+                            <Loader />
+                        </div>
+                    ) : blogs.results && blogs.results.length > 0 ? (
+                        <div className="mb-12">
+                            {/* 히어로 배너 컴포넌트 - 좌우 꽉 체움 */}
+                            <div className="mb-12" style={{ marginLeft: '-5vw', marginRight: '-5vw', width: 'calc(100% + 10vw)' }}>
+                                <HeroBanner 
+                                    featuredBlogs={blogs.results.slice(0, 5)} 
+                                    buttonColor="black"
+                                    useFade={false}
+                                />
                             </div>
-                        : <NoDataMessage message="No blogs published" />
+                            
+                            {/* 최근 콘텐츠 - 최신순 6개 */}
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold">최근 콘텐츠</h2>
+                                <Link 
+                                    to="/content"
+                                    className="text-black hover:text-black/70 transition-colors font-medium"
+                                >
+                                    더 보기 →
+                                </Link>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                                {blogs.results.slice(0, 6).map((blog, i) => (
+                                    <AnimationWrapper
+                                        transition={{ duration: 0.5, delay: i * 0.05 }}
+                                        key={blog.blog_id || i}
+                                    >
+                                        <MagazineBlogCard
+                                            content={blog}
+                                            author={blog.author?.personal_info}
+                                            index={i}
+                                        />
+                                    </AnimationWrapper>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="mb-12">
+                            <NoDataMessage message="No blogs published" />
+                        </div>
                     )}
-                    
-                    {/* 더 불러오기 버튼 */}
-                    {blogs && blogs.results.length > 0 && (
-                        <LoadMoreDataBtn 
-                            state={blogs} 
-                            fetchDataFun={pageState === "home" ? fetchLatestBlogs : fetchBlogsByCategory} 
-                        />
-                    )}
-
                 </div>
             </section>
         </AnimationWrapper>
